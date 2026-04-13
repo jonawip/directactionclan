@@ -8,10 +8,30 @@ import MarathonLogo from '../components/MarathonLogo.astro';
 import rotationData from '../data/rotation.json';
 
 const { featured, games } = rotationData;
+const siteHref = Astro.site?.href ?? 'https://directactionclan.com/';
+const rotationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: siteHref
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Rotation',
+      item: new URL('/rotation', siteHref).href
+    }
+  ]
+};
 ---
 <Base
-  title="DIRECT ACTION // ROTATION"
-  description="What we play: Marathon, Arc Raiders, Spire 2, Destiny 2, friendslop."
+  title="Game Rotation | Marathon, Arc Raiders, Destiny 2 and More"
+  description="See Direct Action Clan's current game rotation, including Marathon and other co-op multiplayer titles played by our Discord community."
+  schema={rotationSchema}
 >
   <TopBar />
   <main id="main-content">

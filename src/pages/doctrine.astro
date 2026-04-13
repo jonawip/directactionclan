@@ -6,10 +6,30 @@ import SectionLabel from '../components/SectionLabel.astro';
 import SectionTitle from '../components/SectionTitle.astro';
 import DoctrineRow from '../components/DoctrineRow.astro';
 import doctrineData from '../data/doctrine.json';
+const siteHref = Astro.site?.href ?? 'https://directactionclan.com/';
+const doctrineSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Home',
+      item: siteHref
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Doctrine',
+      item: new URL('/doctrine', siteHref).href
+    }
+  ]
+};
 ---
 <Base
-  title="DIRECT ACTION // DOCTRINE"
-  description="How we treat each other: solidarity, safety, everyone home from extract."
+  title="Community Doctrine | Direct Action Clan Gaming Values"
+  description="Read the Direct Action Clan doctrine: anti-fascist community standards, solidarity rules, voice chat culture, and safety expectations."
+  schema={doctrineSchema}
 >
   <TopBar />
   <main id="main-content">

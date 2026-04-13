@@ -4,15 +4,35 @@ import '../styles/global.css';
 interface Props {
   title: string;
   description?: string;
+  robots?: string;
+  ogType?: 'website' | 'article';
+  schema?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
 const {
   title,
-  description = 'Leftist gaming Discord: Marathon, anti-fascist, queer, mutual care. Bigots get removed.'
+  description = 'Direct Action is a leftist gaming Discord community focused on Marathon and cooperative multiplayer games.',
+  robots = 'index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1',
+  ogType = 'website',
+  schema
 } = Astro.props;
 
 const canonicalHref = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : null;
 const ogImageHref = Astro.site ? new URL('/da-logo.svg', Astro.site).href : null;
+const siteHref = Astro.site?.href;
+const schemaItems = Array.isArray(schema) ? schema : schema ? [schema] : [];
+const defaultSchema = canonicalHref
+  ? [
+      {
+        '@context': 'https://schema.org',
+        '@type': 'WebPage',
+        name: title,
+        description,
+        url: canonicalHref
+      }
+    ]
+  : [];
+const fullSchema = [...defaultSchema, ...schemaItems];
 ---
 <!doctype html>
 <html lang="en-GB">
@@ -22,12 +42,15 @@ const ogImageHref = Astro.site ? new URL('/da-logo.svg', Astro.site).href : null
     <meta name="generator" content={Astro.generator} />
     <meta name="color-scheme" content="dark" />
     <meta name="theme-color" content="#0a0907" />
+    <meta name="robots" content={robots} />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="en_GB" />
+    {canonicalHref && <meta property="og:url" content={canonicalHref} />}
+    {siteHref && <meta property="og:site_name" content="Direct Action Clan" />}
     {ogImageHref && <meta property="og:image" content={ogImageHref} />}
     {ogImageHref && <meta property="og:image:alt" content="Direct Action logo" />}
     <meta name="twitter:card" content="summary_large_image" />
@@ -35,6 +58,9 @@ const ogImageHref = Astro.site ? new URL('/da-logo.svg', Astro.site).href : null
     <meta name="twitter:description" content={description} />
     {ogImageHref && <meta name="twitter:image" content={ogImageHref} />}
     {canonicalHref && <link rel="canonical" href={canonicalHref} />}
+    {fullSchema.length > 0 && (
+      <script type="application/ld+json" set:html={JSON.stringify(fullSchema)} />
+    )}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/da-logo.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />

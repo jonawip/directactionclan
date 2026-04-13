@@ -35,10 +35,61 @@ const steps = [
     artSrc: '/join-steps/4.svg'
   }
 ] as const;
+const siteHref = Astro.site?.href ?? 'https://directactionclan.com/';
+const joinFaqs = [
+  {
+    question: 'What is Direct Action Clan?',
+    answer:
+      'Direct Action Clan is a leftist, anti-fascist gaming Discord community with a strong Marathon focus and a wider multiplayer game rotation.'
+  },
+  {
+    question: 'Do I need a microphone to join?',
+    answer:
+      'You can join without speaking straight away, but most sessions use voice chat. A basic mic and push-to-talk are enough to get started.'
+  },
+  {
+    question: 'Who is welcome in this server?',
+    answer:
+      'We welcome players who support anti-racist, anti-fascist, and LGBTQ-inclusive spaces. Mutual respect is a hard requirement.'
+  }
+] as const;
+const joinSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      {
+        '@type': 'ListItem',
+        position: 1,
+        name: 'Home',
+        item: siteHref
+      },
+      {
+        '@type': 'ListItem',
+        position: 2,
+        name: 'Join',
+        item: new URL('/join', siteHref).href
+      }
+    ]
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: joinFaqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer
+      }
+    }))
+  }
+];
 ---
 <Base
-  title="DIRECT ACTION // JOIN"
-  description="Join our Discord: first night tips, mic notes, doctrine in short."
+  title="Join Direct Action Clan | Leftist Discord for Marathon Players"
+  description="Join Direct Action Clan on Discord. Learn how voice comms work, what to expect on your first night, and how our anti-fascist community plays together."
+  schema={joinSchema}
 >
   <TopBar />
   <main id="main-content">
@@ -96,6 +147,19 @@ const steps = [
         <p class="doctrine-preamble">
           Longer read: <a href="/doctrine" class="link-acid">/doctrine</a>. If this feels right, you'll fit right in.
         </p>
+        <section class="join-faq" aria-labelledby="join-faq-title">
+          <h2 class="join-section-title" id="join-faq-title">
+            Join FAQ <span class="cyan">for new players.</span>
+          </h2>
+          {
+            joinFaqs.map((faq) => (
+              <article class="join-faq-item">
+                <h3>{faq.question}</h3>
+                <p>{faq.answer}</p>
+              </article>
+            ))
+          }
+        </section>
         <div class="doctrine-stack">
           {
             summary.map((t) => (

@@ -2106,6 +2106,37 @@ footer {
   font-weight: 500;
 }
 
+.join-faq {
+  margin: 56px 0 40px;
+}
+
+.join-faq-item {
+  border-top: 1px solid var(--line);
+  padding: 22px 0;
+}
+
+.join-faq-item:last-child {
+  border-bottom: 1px solid var(--line);
+}
+
+.join-faq-item h3 {
+  font-family: 'Antonio', sans-serif;
+  font-weight: 700;
+  font-size: clamp(20px, 3vw, 28px);
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+  color: var(--fg);
+}
+
+.join-faq-item p {
+  max-width: 70ch;
+  color: var(--fg-dim);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
 .join-section-title {
   font-family: 'Antonio', sans-serif;
   font-weight: 700;
@@ -2159,6 +2190,10 @@ footer {
 
   .join-mic {
     padding: 24px 20px;
+  }
+
+  .join-faq {
+    margin: 40px 0 28px;
   }
 
   .section {

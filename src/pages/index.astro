@@ -20,10 +20,30 @@ const rotationItems = rotationData.games.map((g, i) => ({
   name: g.name,
   tag: g.tag
 }));
+const siteHref = Astro.site?.href ?? 'https://directactionclan.com/';
+const homeSchema = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Direct Action Clan',
+    url: siteHref,
+    inLanguage: 'en-GB',
+    description: 'Leftist gaming Discord community for Marathon and cooperative multiplayer games.'
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Direct Action Clan',
+    url: siteHref,
+    sameAs: ['https://discord.gg/directaction'],
+    description: 'Anti-fascist, queer-inclusive gaming community with a focus on co-op play and mutual care.'
+  }
+];
 ---
 <Base
-  title="DIRECT ACTION // RUNNERS WANTED"
-  description="Leftist gaming Discord: Marathon, anti-fascist, queer, mutual care. Bigots get removed."
+  title="Direct Action Clan | Leftist Marathon Discord Community"
+  description="Join Direct Action Clan, a leftist Marathon Discord server focused on anti-fascist values, inclusive voice comms, and co-op multiplayer."
+  schema={homeSchema}
 >
   <TopBar />
   <main id="main-content">
