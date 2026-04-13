@@ -12,7 +12,18 @@ const page = (p: string) => pathname === p;
       <Logo variant="topbar" />
       DIRECT ACTION
     </a>
-    <nav class="topnav" aria-label="Site sections">
+    <button
+      class="nav-toggle"
+      aria-expanded="false"
+      aria-controls="topnav"
+      aria-label="Toggle navigation"
+      type="button"
+    >
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+    <nav id="topnav" class="topnav" aria-label="Site sections">
       <a href={h('briefing')}>Briefing</a>
       <a href="/doctrine" aria-current={page('/doctrine') ? 'page' : undefined}>Doctrine</a>
       <a href={h('transmission')}>Transmission</a>
@@ -25,3 +36,22 @@ const page = (p: string) => pathname === p;
     </div>
   </div>
 </header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const nav = document.getElementById('topnav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', () => {
+      const open = toggle.getAttribute('aria-expanded') === 'true';
+      toggle.setAttribute('aria-expanded', String(!open));
+      nav.classList.toggle('is-open', !open);
+    });
+
+    nav.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).tagName === 'A') {
+        toggle.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('is-open');
+      }
+    });
+  }
+</script>
