@@ -1,0 +1,137 @@
+---
+import Barcode from './Barcode.astro';
+import MarathonLogo from './MarathonLogo.astro';
+---
+<div class="briefing">
+  <span class="corner tl"></span>
+  <span class="corner tr"></span>
+  <span class="corner bl"></span>
+  <span class="corner br"></span>
+
+  <div class="briefing-stamp">CURRENT GAME</div>
+
+  <div class="briefing-left">
+    <div class="briefing-tag">PRIMARY OP</div>
+    <div class="briefing-game-row">
+      <MarathonLogo variant="briefing" />
+      <div class="briefing-game">MARATHON</div>
+    </div>
+    <div class="briefing-tagline">
+      PvPvE Extraction // Bungie // 2026
+      <Barcode />
+    </div>
+    <div class="briefing-data">
+      <div class="briefing-row">
+        <span class="label">Location</span>
+        <span class="val">Tau Ceti IV</span>
+      </div>
+      <div class="briefing-row">
+        <span class="label">Year</span>
+        <span class="val">2893</span>
+      </div>
+      <div class="briefing-row">
+        <span class="label">Squad</span>
+        <span class="val">Trios <span class="pop">(duos when short)</span></span>
+      </div>
+      <div class="briefing-row">
+        <span class="label">Schedule</span>
+        <span class="val">Most evenings, UK time</span>
+      </div>
+      <div class="briefing-row">
+        <span class="label">Platforms</span>
+        <span class="val">PC // PS5 // Xbox Series X|S</span>
+      </div>
+    </div>
+
+    <div class="shells">
+      <div class="shell">
+        <img
+          class="shell-icon"
+          src="/marathon-classes/destroyer.png"
+          alt=""
+          width="72"
+          height="72"
+          decoding="async"
+        />
+        <div class="shell-num">SH/01</div>
+        <div class="shell-name">Destroyer</div>
+      </div>
+      <div class="shell">
+        <img
+          class="shell-icon"
+          src="/marathon-classes/recon.png"
+          alt=""
+          width="72"
+          height="72"
+          decoding="async"
+        />
+        <div class="shell-num">SH/02</div>
+        <div class="shell-name">Recon</div>
+      </div>
+      <div class="shell">
+        <img
+          class="shell-icon"
+          src="/marathon-classes/thief.png"
+          alt=""
+          width="72"
+          height="72"
+          decoding="async"
+        />
+        <div class="shell-num">SH/03</div>
+        <div class="shell-name">Thief</div>
+      </div>
+      <div class="shell">
+        <img
+          class="shell-icon"
+          src="/marathon-classes/assassin.png"
+          alt=""
+          width="72"
+          height="72"
+          decoding="async"
+        />
+        <div class="shell-num">SH/04</div>
+        <div class="shell-name">Assassin</div>
+      </div>
+      <div class="shell">
+        <img
+          class="shell-icon"
+          src="/marathon-classes/triage.png"
+          alt=""
+          width="72"
+          height="72"
+          decoding="async"
+        />
+        <div class="shell-num">SH/05</div>
+        <div class="shell-name">Triage</div>
+      </div>
+      <div class="shell">
+        <img
+          class="shell-icon"
+          src="/marathon-classes/vandal.png"
+          alt=""
+          width="72"
+          height="72"
+          decoding="async"
+        />
+        <div class="shell-num">SH/06</div>
+        <div class="shell-name">Vandal</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="briefing-right">
+    <div>
+      <p>
+        Marathon is our main game right now: Runners, loot, shut down enemy teams, extract, strike back. That kinda thing.
+      </p>
+      <p>
+        Any skill level is fine. <strong>Talk, listen and stick with your trio.</strong> New? We'll walk you through.
+        Old hand...? There's room.
+      </p>
+    </div>
+    <div class="briefing-coords">
+      <span class="reg"><span class="reg-circle"></span></span>
+      &gt; COORDS 47.231°N // 122.554°W // SIG STRONG
+    </div>
+  </div>
+</div>

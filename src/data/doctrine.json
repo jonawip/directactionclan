@@ -1,0 +1,66 @@
+{
+  "preambleHtml": "How we actually treat each other — plain language, same standards we use in voice. Firm where safety needs it; warm day-to-day. If that sits right, you'll fit in.",
+  "tenets": [
+    {
+      "num": "01",
+      "tenet": "SOLIDARITY",
+      "headline": "Crew over clout.",
+      "bodyHtml": "We stack as a crew. <strong>Solidarity over everything.</strong> We look out for each other in and out of game."
+    },
+    {
+      "num": "02",
+      "tenet": "COMRADESHIP",
+      "headline": "Comrades, regardless.",
+      "bodyHtml": "<strong>Good faith is enough;</strong> your identity is your own. <span class=\"acid\">We have each other's backs.</span>"
+    },
+    {
+      "num": "03",
+      "tenet": "DEFENCE",
+      "headline": "Safety is the floor.",
+      "bodyHtml": "Racism, transphobia, homophobia, misogyny, ableism, fascism, cop apologia. We do not fuckin' do it. <strong>This space is for the people.</strong>"
+    },
+    {
+      "num": "04",
+      "tenet": "MUTUAL AID",
+      "headline": "Exfil together. Always.",
+      "bodyHtml": "<strong>Nobody left at extract.</strong> Bad runs happen; we run it back."
+    },
+    {
+      "num": "05",
+      "tenet": "AUTONOMY",
+      "headline": "Your life stays yours.",
+      "bodyHtml": "<strong>Who you are is yours to share when you choose.</strong> Solidarity here is flat: equal footing, equal voice."
+    },
+    {
+      "num": "06",
+      "tenet": "CONSENT",
+      "headline": "Shared voice chat.",
+      "bodyHtml": "<strong>Be chill.</strong> Respect boundaries. The fight is out there."
+    },
+    {
+      "num": "07",
+      "tenet": "ANTI-IMPERIALISM",
+      "headline": "Solidarity with the colonised.",
+      "bodyHtml": "<strong>We stand with people against occupation and empire.</strong> Anti-fascism includes anti-imperialism; we keep that in how we play and moderate."
+    },
+    {
+      "num": "08",
+      "tenet": "LABOUR",
+      "headline": "Real life matters more.",
+      "bodyHtml": "Grind the game if it brings you joy. <strong>Rest, food, and offline people still come first.</strong>"
+    },
+    {
+      "num": "09",
+      "tenet": "HONESTY",
+      "headline": "Ask, fail, retry.",
+      "bodyHtml": "<strong>Every skill level welcome.</strong> We care how you treat people when the run falls apart."
+    }
+  ],
+  "callout": {
+    "title": "What this is",
+    "paragraphsHtml": [
+      "A leftist gaming Discord: We say trans rights, we do racial justice, we are anti-fascist, we do mutual care, and we play together.",
+      "<strong>We show up for each other.</strong> Games are an excuse; solidarity is the point."
+    ]
+  }
+}

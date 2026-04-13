@@ -1,0 +1,27 @@
+---
+import Logo from './Logo.astro';
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isHome = pathname === '/';
+const h = (id: string) => (isHome ? `#${id}` : `/#${id}`);
+const page = (p: string) => pathname === p;
+---
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a href="/" class="brand" aria-label="Direct Action home">
+      <Logo variant="topbar" />
+      DIRECT ACTION
+    </a>
+    <nav class="topnav" aria-label="Site sections">
+      <a href={h('briefing')}>Briefing</a>
+      <a href="/doctrine" aria-current={page('/doctrine') ? 'page' : undefined}>Doctrine</a>
+      <a href={h('transmission')}>Transmission</a>
+      <a href="/rotation" aria-current={page('/rotation') ? 'page' : undefined}>Rotation</a>
+      <a href="/join" aria-current={page('/join') ? 'page' : undefined}>Join</a>
+    </nav>
+    <div class="status">
+      <span class="status-dot" aria-hidden="true"></span>
+      Operational
+    </div>
+  </div>
+</header>

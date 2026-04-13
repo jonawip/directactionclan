@@ -1,0 +1,59 @@
+{
+  "introHtml": "Marathon is our main game right now, but we play more than that. Honestly? <strong>The games are an excuse to hang out with people who give a shit.</strong> Here is what's in rotation.",
+  "featured": {
+    "name": "Marathon",
+    "tag": "Primary op",
+    "tagVariant": "live",
+    "format": "PvPvE extraction",
+    "publisher": "Bungie",
+    "year": "2026",
+    "schedule": "Most evenings, UK",
+    "who": "Regulars and new folk; trios when we can",
+    "platforms": "PC // PS5 // Xbox Series X|S",
+    "linkLabel": "Official site",
+    "link": "https://www.marathonthegame.com/",
+    "bodyHtml": "<p>Our main thing: Runners, loot, rival squads, things that want us dead.</p><p>Stay in comms, watch angles, stick with your trio. New or old... we got space.</p>"
+  },
+  "games": [
+    {
+      "name": "Arc Raiders",
+      "tag": "Extraction",
+      "format": "PvPvE shooter",
+      "schedule": "Weekends, ad hoc",
+      "who": "Loud, tense, fun",
+      "platforms": "PC",
+      "linkLabel": "Site",
+      "link": "https://arcraiders.com/"
+    },
+    {
+      "name": "Slay the Spire 2",
+      "tag": "Deckbuilder",
+      "format": "Roguelike deckbuilder",
+      "schedule": "Evenings",
+      "who": "Spire nerds",
+      "platforms": "PC",
+      "linkLabel": "Steam",
+      "link": "https://store.steampowered.com/app/2868840/Slay_the_Spire_2/"
+    },
+    {
+      "name": "Destiny 2",
+      "tag": "Looter shooter",
+      "format": "Co-op PvE (+ occasional PvP)",
+      "schedule": "Seasonal — see Discord",
+      "who": "Guardians who still love the grind",
+      "platforms": "PC // PlayStation // Xbox",
+      "linkLabel": "Bungie",
+      "link": "https://www.bungie.net/7/en/destiny"
+    },
+    {
+      "name": "Friendslop",
+      "tag": "Casual",
+      "format": "Co-op / party games",
+      "schedule": "When people feel like it",
+      "who": "Anyone after a laugh",
+      "platforms": "Whatever folks have",
+      "linkLabel": "",
+      "link": ""
+    }
+  ]
+}

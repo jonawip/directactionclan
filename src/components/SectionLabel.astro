@@ -1,0 +1,11 @@
+---
+interface Props {
+  code: string;
+  text: string;
+}
+const { code, text } = Astro.props;
+---
+<div class="section-label">
+  <strong>{code}</strong>
+  {text}
+</div>

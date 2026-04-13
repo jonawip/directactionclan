@@ -1,0 +1,17 @@
+---
+interface Props {
+  num: string;
+  tenet: string;
+  headline: string;
+  bodyHtml: string;
+}
+const { num, tenet, headline, bodyHtml } = Astro.props;
+---
+<div class="doctrine-row">
+  <div>
+    <div class="doctrine-num">{num}</div>
+    <span class="doctrine-num-tag">TENET // <span class="pop">{tenet}</span></span>
+  </div>
+  <h3 class="doctrine-headline">{headline}</h3>
+  <p class="doctrine-body" set:html={bodyHtml} />
+</div>

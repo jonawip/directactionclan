@@ -1,0 +1,16 @@
+---
+interface Props {
+  variant: 'briefing' | 'rotation';
+  class?: string;
+}
+const { variant, class: className } = Astro.props;
+---
+
+<img
+  src="/marathon-logo.svg"
+  alt="Marathon"
+  class:list={['marathon-logo', `marathon-logo--${variant}`, className]}
+  width="200"
+  height="200"
+  decoding="async"
+/>

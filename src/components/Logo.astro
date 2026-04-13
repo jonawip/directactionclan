@@ -1,0 +1,18 @@
+---
+interface Props {
+  variant: 'topbar' | 'hero' | 'footer' | 'deploy';
+  class?: string;
+}
+
+const { variant, class: className } = Astro.props;
+---
+
+<img
+  src="/da-logo.svg"
+  alt=""
+  class:list={['da-logo', `da-logo--${variant}`, className]}
+  width="384"
+  height="384"
+  decoding="async"
+  fetchpriority={variant === 'topbar' ? 'high' : undefined}
+/>

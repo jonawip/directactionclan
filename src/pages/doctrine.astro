@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Footer from '../components/Footer.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import DoctrineRow from '../components/DoctrineRow.astro';
+import doctrineData from '../data/doctrine.json';
+---
+<Base
+  title="DIRECT ACTION // DOCTRINE"
+  description="How we treat each other: solidarity, safety, everyone home from extract."
+>
+  <TopBar />
+  <main id="main-content">
+    <section class="section" aria-labelledby="doctrine-page-title">
+      <div class="wrap">
+        <SectionLabel code="DOC" text="Doctrine" />
+        <SectionTitle id="doctrine-page-title">How we <span class="accent">work.</span></SectionTitle>
+        <p class="doctrine-preamble" set:html={doctrineData.preambleHtml} />
+        <div class="doctrine-stack">
+          {
+            doctrineData.tenets.map((t) => (
+              <DoctrineRow
+                num={t.num}
+                tenet={t.tenet}
+                headline={t.headline}
+                bodyHtml={t.bodyHtml}
+              />
+            ))
+          }
+        </div>
+        <aside class="doctrine-callout" aria-labelledby="callout-title">
+          <h3 id="callout-title">{doctrineData.callout.title}</h3>
+          {
+            doctrineData.callout.paragraphsHtml.map((p) => (
+              <p set:html={p} />
+            ))
+          }
+        </aside>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>

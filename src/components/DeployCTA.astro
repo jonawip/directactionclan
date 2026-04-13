@@ -1,0 +1,24 @@
+---
+import Logo from './Logo.astro';
+import { DISCORD_INVITE } from '../constants.ts';
+---
+<section class="deploy" id="deploy">
+  <div class="wrap">
+    <div class="deploy-inner">
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <Logo variant="deploy" />
+      <div class="deploy-pre">// YOUR MOVE</div>
+      <h2>COME <span class="accent">SAY HI.</span></h2>
+      <div class="deploy-meta">
+        <span><span class="reg"><span class="reg-circle"></span></span> ONE LINK</span>
+        <span><span class="reg"><span class="reg-circle"></span></span> STRAIGHT IN</span>
+        <span><span class="reg"><span class="reg-circle"></span></span> KIND CREW</span>
+      </div>
+      <a href={DISCORD_INVITE} class="cta-primary" rel="noopener noreferrer">
+        Open Discord
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>

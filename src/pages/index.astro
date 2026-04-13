@@ -1,0 +1,86 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Hero from '../components/Hero.astro';
+import Manifesto from '../components/Manifesto.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import BriefingCard from '../components/BriefingCard.astro';
+import DoctrineRow from '../components/DoctrineRow.astro';
+import TransmissionFeed from '../components/TransmissionFeed.astro';
+import RotationItem from '../components/RotationItem.astro';
+import DeployCTA from '../components/DeployCTA.astro';
+import Footer from '../components/Footer.astro';
+import doctrineData from '../data/doctrine.json';
+import rotationData from '../data/rotation.json';
+
+const homeDoctrine = doctrineData.tenets.slice(0, 4);
+const rotationItems = rotationData.games.map((g, i) => ({
+  num: `/0${i + 1}`,
+  name: g.name,
+  tag: g.tag
+}));
+---
+<Base
+  title="DIRECT ACTION // RUNNERS WANTED"
+  description="Leftist gaming Discord: Marathon, anti-fascist, queer, mutual care. Bigots get removed."
+>
+  <TopBar />
+  <main id="main-content">
+    <Hero />
+    <Manifesto />
+
+    <section class="section" id="briefing" aria-labelledby="briefing-title">
+      <div class="wrap">
+        <SectionLabel code="01" text="Main game" />
+        <SectionTitle id="briefing-title">Playing <span class="accent">now.</span></SectionTitle>
+        <BriefingCard />
+      </div>
+    </section>
+
+    <section class="section" id="doctrine" aria-labelledby="doctrine-title">
+      <div class="wrap">
+        <SectionLabel code="02" text="Values" />
+        <SectionTitle id="doctrine-title">What we <span class="accent">mean.</span></SectionTitle>
+        <div class="doctrine-stack">
+          {
+            homeDoctrine.map((t) => (
+              <DoctrineRow
+                num={t.num}
+                tenet={t.tenet}
+                headline={t.headline}
+                bodyHtml={t.bodyHtml}
+              />
+            ))
+          }
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="transmission" aria-labelledby="transmission-title">
+      <div class="wrap">
+        <SectionLabel code="03" text="Live feed" />
+        <SectionTitle id="transmission-title">On the <span class="cyan">wire.</span></SectionTitle>
+        <TransmissionFeed />
+      </div>
+    </section>
+
+    <section class="section" id="rotation" aria-labelledby="rotation-title">
+      <div class="wrap">
+        <SectionLabel code="04" text="Also playing" />
+        <SectionTitle id="rotation-title">More <span class="accent">games.</span></SectionTitle>
+        <div class="rotation">
+          <div class="rotation-intro">
+            <p set:html={rotationData.introHtml} />
+          </div>
+          <div class="rotation-list">
+            {rotationItems.map((item) => <RotationItem {...item} />)}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <DeployCTA />
+  </main>
+  <Footer />
+</Base>

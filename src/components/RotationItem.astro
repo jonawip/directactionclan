@@ -1,0 +1,14 @@
+---
+interface Props {
+  num: string;
+  name: string;
+  tag: string;
+}
+const { num, name, tag } = Astro.props;
+---
+<div class="rotation-item">
+  <span class="num">{num}</span>
+  <span class="name">{name}</span>
+  <span class="tag">{tag}</span>
+  <span class="arrow">→</span>
+</div>

@@ -1,0 +1,101 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Footer from '../components/Footer.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import MarathonLogo from '../components/MarathonLogo.astro';
+import rotationData from '../data/rotation.json';
+
+const { featured, games } = rotationData;
+---
+<Base
+  title="DIRECT ACTION // ROTATION"
+  description="What we play: Marathon, Arc Raiders, Spire 2, Destiny 2, friendslop."
+>
+  <TopBar />
+  <main id="main-content">
+    <section class="section" aria-labelledby="rotation-page-title">
+      <div class="wrap">
+        <SectionLabel code="OPS" text="What we play" />
+        <SectionTitle id="rotation-page-title">On the <span class="accent">rota.</span></SectionTitle>
+        <p class="doctrine-preamble" set:html={rotationData.introHtml} />
+
+        <div class="rotation-game-grid">
+          <article class="rotation-game-card featured" aria-labelledby="feat-title">
+            <div class="rg-head">
+              <div class="rg-head-main">
+                <MarathonLogo variant="rotation" />
+                <h2 class="rg-title" id="feat-title">{featured.name}</h2>
+              </div>
+              <span class:list={['rg-tag', featured.tagVariant === 'live' && 'live']}>{featured.tag}</span>
+            </div>
+            <div class="rg-rows">
+              <div class="rg-row">
+                <span class="k">Format</span>
+                <span class="v">{featured.format} // {featured.publisher} // {featured.year}</span>
+              </div>
+              <div class="rg-row">
+                <span class="k">Schedule</span>
+                <span class="v">{featured.schedule}</span>
+              </div>
+              <div class="rg-row">
+                <span class="k">Who plays</span>
+                <span class="v">{featured.who}</span>
+              </div>
+              <div class="rg-row">
+                <span class="k">Platforms</span>
+                <span class="v">{featured.platforms}</span>
+              </div>
+            </div>
+            <div class="rg-body" set:html={featured.bodyHtml} />
+            {
+              featured.link && (
+                <a class="rg-link" href={featured.link} rel="noopener noreferrer">
+                  {featured.linkLabel}
+                  <span>→</span>
+                </a>
+              )
+            }
+          </article>
+
+          {
+            games.map((g) => (
+              <article class="rotation-game-card">
+                <div class="rg-head">
+                  <h2 class="rg-title">{g.name}</h2>
+                  <span class="rg-tag">{g.tag}</span>
+                </div>
+                <div class="rg-rows">
+                  <div class="rg-row">
+                    <span class="k">Format</span>
+                    <span class="v">{g.format}</span>
+                  </div>
+                  <div class="rg-row">
+                    <span class="k">Schedule</span>
+                    <span class="v">{g.schedule}</span>
+                  </div>
+                  <div class="rg-row">
+                    <span class="k">Who plays</span>
+                    <span class="v">{g.who}</span>
+                  </div>
+                  <div class="rg-row">
+                    <span class="k">Platforms</span>
+                    <span class="v">{g.platforms}</span>
+                  </div>
+                </div>
+                {g.link ? (
+                  <a class="rg-link" href={g.link} rel="noopener noreferrer">
+                    {g.linkLabel || g.name}
+                    <span>→</span>
+                  </a>
+                ) : null}
+              </article>
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>

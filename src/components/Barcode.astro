@@ -1,0 +1,11 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+<div class:list={['barcode', className]} aria-hidden="true">
+  {Array.from({ length: 15 }, () => (
+    <span />
+  ))}
+</div>

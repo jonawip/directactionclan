@@ -1,0 +1,46 @@
+---
+const lines = [
+  ['[20:14:02]', 'JOIN', 'runner_023 entered the lobby', false],
+  ['[20:14:18]', 'EXFIL', 'squad_07 returned with 12kg salvage', false],
+  ['[20:15:03]', 'DROP', 'three runners deploying to perimeter', false],
+  ['[20:15:41]', 'CALL', '"contact, two o\'clock, behind the silo"', false],
+  ['[20:16:09]', 'DOWN', 'runner_023 needs a pickup, hold position', true],
+  ['[20:16:55]', 'REVIVE', 'squad recovered, moving on', false],
+  ['[20:18:21]', 'JOIN', 'comrade_x signed in from Manchester', false],
+  ['[20:19:04]', 'BAN', 'a transphobe just learned what a hammer is', true],
+  ['[20:19:33]', 'EXFIL', 'full team out, full pockets, no losses', false],
+  ['[20:20:11]', 'CHAT', '"who\'s on for one more before bed"', false],
+  ['[20:20:48]', 'DROP', 'duo deploying, rook ghost spotted', false],
+  ['[20:21:30]', 'JOIN', 'new runner from glasgow, mic check passed', false],
+  ['[20:22:17]', 'CALL', '"i love you all, even when you steal my loot"', false]
+] as const;
+
+const doubled = [...lines, ...lines];
+---
+<div class="transmission">
+  <div class="transmission-header">
+    <div class="h-left">
+      <strong>// CHANNEL DA-001</strong>
+      <span class="sep">//</span>
+      <span>FREQ 8.42 GHz</span>
+    </div>
+    <div class="h-mid">// SECURE / ENCRYPTED / OPEN ACCESS</div>
+    <div class="h-right">
+      <span>SIG</span>
+      <span class="signal"><span></span><span></span><span></span><span></span></span>
+    </div>
+  </div>
+  <div class="transmission-body">
+    <div class="transmission-list">
+      {
+        doubled.map(([ts, tag, msg, pink]) => (
+          <div class="transmission-line">
+            <span class="ts">{ts}</span>
+            <span class:list={['tag', pink && 'pink']}>{tag}</span>
+            <span class="msg">{msg}</span>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</div>

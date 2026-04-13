@@ -1,0 +1,65 @@
+---
+import Logo from './Logo.astro';
+import { DISCORD_INVITE } from '../constants.ts';
+---
+<section class="hero">
+  <img
+    src="/sekuguchi-hero.png"
+    alt=""
+    class="hero-sekuguchi"
+    width="1920"
+    height="1080"
+    decoding="async"
+    fetchpriority="high"
+    aria-hidden="true"
+  />
+  <div class="hero-cipher">
+    <span class="small">UNIT // DA-001</span>
+    Da
+  </div>
+
+  <div class="wrap hero-inner">
+    <div class="hero-rail">
+      <span class="reg"><span class="reg-circle"></span></span>
+      <span class="hero-rail-text">UNIT // DA-001 // EST. 09.03.2022</span>
+      <span class="reg"><span class="reg-circle"></span></span>
+    </div>
+
+    <div class="hero-meta">
+      <span><span class="key">UNIT //</span> <span class="val">DA-001</span></span>
+      <span><span class="key">SECTOR //</span> <span class="val">TAU CETI IV</span></span>
+      <span><span class="key">YEAR //</span> <span class="val">2893</span></span>
+      <span><span class="key">STATUS //</span> <span class="val">RECRUITING</span></span>
+    </div>
+
+    <div class="hero-headline">
+      <h1>
+        RUNNERS<br />
+        <span class="line2">WANTED</span>
+      </h1>
+    </div>
+
+    <div class="hero-spec">
+      <Logo variant="hero" />
+      <div class="hero-spec-readout">
+        <strong>// IDENTIFIED</strong>
+        Atomic No. 001<br />
+        Mass: Solidarity<br />
+        State: <span class="pink">RECRUITING</span><br />
+        Half-life: ∞
+      </div>
+    </div>
+
+    <div class="hero-sub">
+      <p class="hero-blurb">
+        <strong>Direct Action</strong> is a leftist gaming Discord on Tau Ceti IV right now. Anarchist,
+        anti-fascist, queer. <span class="pop">Solidarity is for everyone here.</span> Trios, voice on, everyone
+        walks out together.
+      </p>
+      <a href={DISCORD_INVITE} class="cta-primary" rel="noopener noreferrer">
+        Say hi on Discord
+        <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>

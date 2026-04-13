@@ -1,0 +1,37 @@
+---
+import Logo from './Logo.astro';
+import { DISCORD_INVITE } from '../constants.ts';
+---
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-elem">
+        <Logo variant="footer" />
+      </div>
+      <div class="footer-col">
+        <div class="footer-bigmark">DIRECT<br /><span class="accent">ACTION.</span></div>
+        <p>Leftist gamers. Marathon main. Anti-fascist always. New faces welcome.</p>
+      </div>
+      <nav class="footer-col footer-nav" aria-label="Channels and pages">
+        <p class="footer-heading">// Channels</p>
+        <a href={DISCORD_INVITE} rel="noopener noreferrer">Discord</a>
+        <a href="/#briefing">Current op</a>
+        <a href="/doctrine">Doctrine</a>
+        <a href="/#transmission">Transmission</a>
+        <a href="/rotation">Rotation</a>
+      </nav>
+      <div class="footer-col">
+        <p class="footer-heading">// Solidarity</p>
+        <p>Trans rights are human rights</p>
+        <p>Black lives matter</p>
+        <p>Free Palestine</p>
+        <p>No gods, no masters</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>DIRECT ACTION // <span class="accent">EST. 09.03.2022</span></span>
+      <span>NOT AFFILIATED WITH BUNGIE</span>
+      <span>SOLIDARITY <span class="accent">FOREVER</span></span>
+    </div>
+  </div>
+</footer>

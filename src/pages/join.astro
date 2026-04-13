@@ -1,0 +1,115 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Footer from '../components/Footer.astro';
+import SectionLabel from '../components/SectionLabel.astro';
+import SectionTitle from '../components/SectionTitle.astro';
+import DoctrineRow from '../components/DoctrineRow.astro';
+import { DISCORD_INVITE } from '../constants.ts';
+import doctrineData from '../data/doctrine.json';
+
+const summary = doctrineData.tenets.slice(0, 4);
+const steps = [
+  {
+    sym: '01',
+    title: 'Hop in',
+    body: 'One link, straight in. Say hello when you feel like it.',
+    artSrc: '/join-steps/1.svg'
+  },
+  {
+    sym: '02',
+    title: 'Look around',
+    body: 'Skim the channels. Introduce yourself if you want — totally optional.',
+    artSrc: '/join-steps/2.svg'
+  },
+  {
+    sym: '03',
+    title: 'Mic',
+    body: 'Most games need a mic. Push-to-talk helps. Mic off today? Say so in text.',
+    artSrc: '/join-steps/3.svg'
+  },
+  {
+    sym: '04',
+    title: 'Play',
+    body: 'Check pings or ask who is on. New players get a hand; regulars fold you in.',
+    artSrc: '/join-steps/4.svg'
+  }
+] as const;
+---
+<Base
+  title="DIRECT ACTION // JOIN"
+  description="Join our Discord: first night tips, mic notes, doctrine in short."
+>
+  <TopBar />
+  <main id="main-content">
+    <section class="section" aria-labelledby="join-title">
+      <div class="wrap">
+        <SectionLabel code="JOIN" text="Join us" />
+        <SectionTitle id="join-title">Glad you're <span class="accent">here.</span></SectionTitle>
+        <p class="join-lead">
+          <strong>Anarchist, anti-fascist, anti-racist, LGBTQ-friendly.</strong> Mutual respect is our baseline. If that sounds like you, come on in and play.
+        </p>
+        <div class="join-cta-row">
+          <a href={DISCORD_INVITE} class="cta-primary" rel="noopener noreferrer">
+            Open Discord
+            <span class="arrow">→</span>
+          </a>
+        </div>
+
+        <h2 class="join-section-title">
+          Your first <span class="cyan">night.</span>
+        </h2>
+        <p class="join-lead">
+          Text chat gets busy; voice is calmer. People may ask what you play and where you are. <strong>Say what you want.</strong>
+        </p>
+
+        <div class="join-steps">
+          {
+            steps.map((s) => (
+              <article class="join-step">
+                <img
+                  class="join-step-art"
+                  src={s.artSrc}
+                  alt=""
+                  width="128"
+                  height="128"
+                  decoding="async"
+                />
+                <span class="step-num">Step // {s.sym}</span>
+                <h3>{s.title}</h3>
+                <p>{s.body}</p>
+              </article>
+            ))
+          }
+        </div>
+
+        <div class="join-mic">
+          <h3>Voice</h3>
+          <p>
+            <strong>No fancy gear needed</strong> You just need clear audio and be willing to talk to people.
+          </p>
+        </div>
+
+        <h2 class="join-section-title spaced">
+          What we're about <span class="accent">(doctrine)</span>
+        </h2>
+        <p class="doctrine-preamble">
+          Longer read: <a href="/doctrine" class="link-acid">/doctrine</a>. If this feels right, you'll fit right in.
+        </p>
+        <div class="doctrine-stack">
+          {
+            summary.map((t) => (
+              <DoctrineRow
+                num={t.num}
+                tenet={t.tenet}
+                headline={t.headline}
+                bodyHtml={t.bodyHtml}
+              />
+            ))
+          }
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Base>

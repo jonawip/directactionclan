@@ -1,0 +1,29 @@
+---
+interface Props {
+  size?: 'sm' | 'lg';
+  variant?: 'pink' | 'cyan' | 'bone';
+  href?: string;
+  class?: string;
+}
+const { size, variant, href, class: className } = Astro.props;
+const classes = [
+  'elem',
+  size === 'sm' && 'elem-sm',
+  size === 'lg' && 'elem-lg',
+  variant,
+  className
+]
+  .filter(Boolean)
+  .join(' ');
+---
+{
+  href ? (
+    <a class={classes} href={href}>
+      <slot />
+    </a>
+  ) : (
+    <span class={classes}>
+      <slot />
+    </span>
+  )
+}
