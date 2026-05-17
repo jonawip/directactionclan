@@ -126,13 +126,35 @@ export async function joinGame(
     .eq("id", gameId)
     .single();
 
-  if (updated?.status === "full") {
-    const { data: host } = await supabase
-      .from("profiles")
-      .select("display_name, handle")
-      .eq("id", updated.created_by)
-      .single();
-    if (host) {
+  if (updated) {
+    const { count: filled } = await supabase
+      .from("rsvps")
+      .select("*", { count: "exact", head: true })
+      .eq("game_id", gameId);
+
+    const openSlots = Math.max(0, updated.max_players - (filled ?? 0));
+
+    const [{ data: host }, { data: joiner }] = await Promise.all([
+      supabase
+        .from("profiles")
+        .select("display_name, handle")
+        .eq("id", updated.created_by)
+        .single(),
+      supabase
+        .from("profiles")
+        .select("display_name, handle")
+        .eq("id", userId)
+        .single(),
+    ]);
+
+    if (host && joiner) {
+      await dispatchGameWebhook("game.player_joined", updated, host, {
+        openSlots,
+        player: joiner,
+      });
+    }
+
+    if (updated.status === "full" && host) {
       await dispatchGameWebhook("game.full", updated, host);
     }
   }

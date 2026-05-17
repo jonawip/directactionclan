@@ -14,6 +14,11 @@
   --cyan: #00e5ff;
   --line: #2a2620;
 
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+
   --space-xs: 0.5rem;
   --space-sm: 0.75rem;
   --space-md: 1.25rem;
@@ -265,6 +270,7 @@ body::before {
 
 .empty-state {
   padding: var(--space-xl);
+  border-radius: var(--radius-lg);
 }
 
 .empty-state p + p {
@@ -274,6 +280,7 @@ body::before {
 .filter-panel {
   padding: var(--space-lg);
   margin-bottom: var(--space-xl);
+  border-radius: var(--radius-lg);
 }
 
 .filter-panel > div + div {
@@ -309,6 +316,7 @@ body::before {
   text-transform: uppercase;
   text-decoration: none;
   border: 2px solid var(--line);
+  border-radius: var(--radius-md);
   background: var(--bg-2);
   color: var(--fg);
   cursor: pointer;
@@ -338,6 +346,7 @@ body::before {
 .card {
   background: var(--bg-2);
   border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   position: relative;
   overflow: hidden;
 }
@@ -464,6 +473,7 @@ body::before {
   padding: var(--space-md) var(--space-lg) var(--space-lg);
   border-top: 1px solid var(--line);
   background: var(--bg-3);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
 }
 
 .card-accent {
@@ -489,6 +499,8 @@ body::before {
 .card-hero--detail {
   margin-bottom: var(--space-xl);
   border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
 }
 
 .card-hero img {
@@ -528,6 +540,7 @@ body::before {
   text-transform: uppercase;
   padding: 4px 12px;
   border: 1px solid var(--line);
+  border-radius: var(--radius-md);
 }
 
 .slot-grid {
@@ -546,12 +559,14 @@ body::before {
 
 .slot-grid-item--filled {
   border: 1px solid var(--line);
+  border-radius: var(--radius-md);
   background: var(--bg-2);
   color: var(--fg);
 }
 
 .slot-grid-item--empty {
   border: 1px dashed var(--fg-faint);
+  border-radius: var(--radius-md);
   background: transparent;
   color: var(--fg-faint);
   opacity: 0.65;
@@ -579,6 +594,10 @@ body::before {
 
 .detail-section {
   margin-bottom: var(--space-xl);
+}
+
+.detail-section.border {
+  border-radius: var(--radius-lg);
 }
 
 .detail-section h2 {
@@ -619,6 +638,7 @@ body::before {
 .form-field textarea {
   background: var(--bg-3);
   border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
   color: var(--fg);
   padding: 14px 16px;
   font-family: inherit;
@@ -634,7 +654,9 @@ body::before {
 .advanced-panel {
   margin-bottom: var(--space-lg);
   border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   background: var(--bg-2);
+  overflow: hidden;
 }
 
 .advanced-panel summary {
@@ -705,6 +727,7 @@ body::before {
   width: calc(100% - 2rem);
   padding: var(--space-lg);
   border: 1px solid var(--line);
+  border-radius: var(--radius-xl);
   background: var(--bg-2);
   color: var(--fg);
 }
@@ -800,6 +823,7 @@ body::before {
   margin-bottom: var(--space-lg);
   padding: var(--space-lg);
   border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   background: var(--bg-2);
 }
 
@@ -909,6 +933,7 @@ body::before {
   align-items: start;
   padding: var(--space-md);
   border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
   background: var(--bg-2);
 }
 

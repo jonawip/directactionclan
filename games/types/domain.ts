@@ -17,6 +17,7 @@ export type GameWithRsvps = GameRow & {
 
 export type WebhookEvent =
   | "game.created"
+  | "game.player_joined"
   | "game.full"
   | "game.cancelled"
   | "game.starting";

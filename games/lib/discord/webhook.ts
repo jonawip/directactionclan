@@ -109,11 +109,37 @@ export async function postDiscord(
   return { ok: true };
 }
 
+const ONE_SHOT_WEBHOOK_EVENTS: WebhookEvent[] = [
+  "game.created",
+  "game.full",
+  "game.cancelled",
+  "game.starting",
+];
+
+function slotsLabel(open: number): string {
+  if (open <= 0) {
+    return "No spots left";
+  }
+  if (open === 1) {
+    return "1 spot left";
+  }
+  return `${open} spots left`;
+}
+
+function playerLabel(
+  player: Pick<ProfileRow, "display_name" | "handle">,
+): string {
+  return player.handle ? `@${player.handle}` : player.display_name;
+}
+
 export async function dispatchGameWebhook(
   event: WebhookEvent,
   game: GameRow,
   host: Pick<ProfileRow, "display_name" | "handle">,
-  extra?: { openSlots?: number },
+  extra?: {
+    openSlots?: number;
+    player?: Pick<ProfileRow, "display_name" | "handle">;
+  },
 ): Promise<void> {
   const admin = getAdminClient();
   if (!admin) {
@@ -129,19 +155,31 @@ export async function dispatchGameWebhook(
 
   const gameUrl = `${siteBaseUrl()}/games/${game.id}`;
 
-  const { data: existing } = await admin
-    .from("webhook_log")
-    .select("id")
-    .eq("event", event)
-    .eq("game_id", game.id)
-    .not("delivered_at", "is", null)
-    .maybeSingle();
-
-  if (existing) {
+  if (event === "game.player_joined" && !extra?.player) {
     return;
   }
 
-  const payload: Json = { event, gameId: game.id };
+  if (ONE_SHOT_WEBHOOK_EVENTS.includes(event)) {
+    const { data: existing } = await admin
+      .from("webhook_log")
+      .select("id")
+      .eq("event", event)
+      .eq("game_id", game.id)
+      .not("delivered_at", "is", null)
+      .maybeSingle();
+
+    if (existing) {
+      return;
+    }
+  }
+
+  const payload: Json = {
+    event,
+    gameId: game.id,
+    ...(extra?.player?.handle
+      ? { playerHandle: extra.player.handle }
+      : { playerName: extra?.player?.display_name }),
+  };
   const { data: logRow, error: logErr } = await admin
     .from("webhook_log")
     .insert({ event, game_id: game.id, payload })
@@ -188,6 +226,42 @@ export async function dispatchGameWebhook(
         game,
       );
       break;
+    case "game.player_joined": {
+      const joiner = extra?.player as Pick<
+        ProfileRow,
+        "display_name" | "handle"
+      >;
+      const openSlots = extra?.openSlots ?? 0;
+      embed = withHeroImage(
+        {
+          title: `${playerLabel(joiner)} joined`,
+          url: gameUrl,
+          color: colour,
+          description: embedDescription(game, { includeNotes: false }),
+          fields: [
+            { name: "Session", value: game.title },
+            {
+              name: "Spots left",
+              value: slotsLabel(openSlots),
+              inline: true,
+            },
+            {
+              name: "Starts",
+              value: discordTimestamp(game.starts_at),
+              inline: true,
+            },
+            {
+              name: "Host",
+              value: host.handle ? `@${host.handle}` : host.display_name,
+            },
+          ],
+          footer: { text: "Direct Action Games" },
+          timestamp: new Date().toISOString(),
+        },
+        game,
+      );
+      break;
+    }
     case "game.full":
       embed = withHeroImage(
         {
