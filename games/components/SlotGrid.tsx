@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { uiCopy } from "@/lib/ui/copy";
 import type { RsvpWithProfile } from "@/types/domain";
 
@@ -51,9 +52,13 @@ export function SlotGrid({ maxPlayers, rsvps, variant = "default" }: Props) {
                 </span>
               )}
               <span className="truncate">
-                {rsvp.profiles.handle
-                  ? `@${rsvp.profiles.handle}`
-                  : rsvp.profiles.display_name}
+                {rsvp.profiles.handle ? (
+                  <Link href={`/profile/${rsvp.profiles.handle}`}>
+                    @{rsvp.profiles.handle}
+                  </Link>
+                ) : (
+                  rsvp.profiles.display_name
+                )}
               </span>
             </>
           ) : (

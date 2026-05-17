@@ -698,3 +698,41 @@ body::before {
 .start-fieldset-grid {
   gap: var(--space-md);
 }
+
+.app-dialog {
+  margin: auto;
+  max-width: 32rem;
+  width: calc(100% - 2rem);
+  padding: var(--space-lg);
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+  color: var(--fg);
+}
+
+.app-dialog--wide {
+  max-width: 36rem;
+}
+
+.app-dialog::backdrop {
+  background: rgba(10, 9, 7, 0.85);
+}
+
+.app-dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+  margin-top: var(--space-lg);
+}
+
+.filter-date-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+  align-items: flex-end;
+  margin-top: var(--space-md);
+}
+
+.filter-date-row .form-field {
+  min-width: 10rem;
+}

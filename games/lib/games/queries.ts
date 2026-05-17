@@ -33,6 +33,7 @@ export async function fetchUpcomingGames(
     .from("games")
     .select(gameSelect)
     .gte("starts_at", options?.from ?? oneHourAgo)
+    .neq("status", "completed")
     .order("starts_at", { ascending: true });
 
   if (options?.to) {

@@ -3,6 +3,10 @@ import { GameFeed } from "@/components/GameFeed";
 import { GameFilters } from "@/components/GameFilters";
 import { getOptionalUser } from "@/lib/auth/require";
 import { fetchUpcomingGames } from "@/lib/games/queries";
+import {
+  dateInTimezoneToUtcEnd,
+  dateInTimezoneToUtcStart,
+} from "@/lib/time/local-to-iso";
 import { uiCopy } from "@/lib/ui/copy";
 import { createClient } from "@/lib/supabase/server";
 
@@ -17,17 +21,13 @@ export default async function HomePage({
   const supabase = await createClient();
   const user = await getOptionalUser();
 
-  const gameSlugs = toSingleArray(params.game);
-  const activitySlugs = toSingleArray(params.activity);
+  const gameSlugs = toMultiArray(params.game);
+  const activitySlugs = toMultiArray(params.activity);
   const openOnly = params.open === "1";
   const notJoined = params.notJoined === "1";
-
-  const games = await fetchUpcomingGames(supabase, {
-    gameSlugs: gameSlugs.length ? gameSlugs : undefined,
-    activitySlugs: activitySlugs.length ? activitySlugs : undefined,
-    openOnly,
-    excludeUserId: notJoined && user ? user.id : undefined,
-  });
+  const fromDate =
+    typeof params.from === "string" ? params.from : undefined;
+  const toDate = typeof params.to === "string" ? params.to : undefined;
 
   let timezone = "Europe/London";
   if (user) {
@@ -40,6 +40,20 @@ export default async function HomePage({
       timezone = profile.timezone;
     }
   }
+
+  const from = fromDate
+    ? dateInTimezoneToUtcStart(fromDate, timezone)
+    : undefined;
+  const to = toDate ? dateInTimezoneToUtcEnd(toDate, timezone) : undefined;
+
+  const games = await fetchUpcomingGames(supabase, {
+    gameSlugs: gameSlugs.length ? gameSlugs : undefined,
+    activitySlugs: activitySlugs.length ? activitySlugs : undefined,
+    openOnly,
+    excludeUserId: notJoined && user ? user.id : undefined,
+    from,
+    to,
+  });
 
   return (
     <>
@@ -58,8 +72,9 @@ export default async function HomePage({
   );
 }
 
-function toSingleArray(value: string | string[] | undefined): string[] {
-  if (!value) return [];
-  const first = Array.isArray(value) ? value[0] : value;
-  return first ? [first] : [];
+function toMultiArray(value: string | string[] | undefined): string[] {
+  if (!value) {
+    return [];
+  }
+  return Array.isArray(value) ? value : [value];
 }

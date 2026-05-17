@@ -63,7 +63,7 @@ Create webhooks under Discord server → Integrations → Webhooks. Paste URLs i
 - Framework: Next.js
 - Node 22
 - Custom domain: `games.directaction.monster` → CNAME `cname.vercel-dns.com`
-- Cron: configured in `vercel.json` for `/api/cron/starting-soon`
+- Cron: `vercel.json` runs `/api/cron/starting-soon` every 5 minutes and `/api/cron/mark-completed` daily at 03:00 UTC
 
 ## API
 

@@ -68,7 +68,9 @@ export function canLeaveGame(game: GameRow, now = new Date()): string | null {
   return null;
 }
 
-export function gameEndTime(game: GameRow): Date {
+export function gameEndTime(
+  game: Pick<GameRow, "starts_at" | "duration_minutes">,
+): Date {
   return addMinutes(new Date(game.starts_at), game.duration_minutes);
 }
 
@@ -87,3 +89,48 @@ export const updateGameSchema = z.object({
   durationMinutes: z.number().int().min(MIN_DURATION).max(MAX_DURATION).optional(),
   maxPlayers: z.number().int().min(1).optional(),
 });
+
+export type UpdateGameInput = z.infer<typeof updateGameSchema>;
+
+export function validateUpdateGame(
+  existing: GameRow,
+  input: UpdateGameInput,
+  canChangeMaxPlayers: boolean,
+): string | null {
+  if (input.maxPlayers !== undefined && !canChangeMaxPlayers) {
+    return "Cannot change player limit after others have joined.";
+  }
+
+  const activity = findActivity(existing.game_slug, existing.activity_slug);
+  if (!activity) {
+    return "Unknown activity.";
+  }
+
+  const merged = {
+    gameSlug: existing.game_slug,
+    activitySlug: existing.activity_slug,
+    title: input.title ?? existing.title,
+    description: input.description ?? existing.description,
+    startsAt: input.startsAt ?? existing.starts_at,
+    durationMinutes: input.durationMinutes ?? existing.duration_minutes,
+    maxPlayers: input.maxPlayers ?? existing.max_players,
+  };
+
+  if (input.startsAt !== undefined || input.maxPlayers !== undefined) {
+    return validateCreateGame({
+      gameSlug: merged.gameSlug,
+      activitySlug: merged.activitySlug,
+      title: merged.title,
+      description: merged.description ?? undefined,
+      startsAt: merged.startsAt,
+      durationMinutes: merged.durationMinutes,
+      maxPlayers: merged.maxPlayers,
+    });
+  }
+
+  if (input.maxPlayers !== undefined && input.maxPlayers > activity.defaultMaxPlayers) {
+    return `Max players cannot exceed ${activity.defaultMaxPlayers} for this activity.`;
+  }
+
+  return null;
+}

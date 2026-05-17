@@ -7,10 +7,12 @@ import { GAMES } from "@/lib/games/catalogue";
 import { uiCopy } from "@/lib/ui/copy";
 
 type FilterState = {
-  game?: string;
+  games?: string[];
   activity?: string;
   openOnly?: boolean;
   notJoined?: boolean;
+  from?: string;
+  to?: string;
 };
 
 export function GameFilters({ isAuthed }: { isAuthed: boolean }) {
@@ -18,19 +20,26 @@ export function GameFilters({ isAuthed }: { isAuthed: boolean }) {
   const searchParams = useSearchParams();
   const [pending, startTransition] = useTransition();
 
-  const selectedGame = searchParams.get("game") ?? null;
+  const selectedGames = searchParams.getAll("game");
   const selectedActivity = searchParams.get("activity") ?? null;
   const openOnly = searchParams.get("open") === "1";
   const notJoined = searchParams.get("notJoined") === "1";
+  const fromDate = searchParams.get("from") ?? "";
+  const toDate = searchParams.get("to") ?? "";
 
   const showAll =
-    !selectedGame && !selectedActivity && !openOnly && !notJoined;
+    selectedGames.length === 0 &&
+    !selectedActivity &&
+    !openOnly &&
+    !notJoined &&
+    !fromDate &&
+    !toDate;
 
   const pushFilters = useCallback(
     (state: FilterState) => {
       const params = new URLSearchParams();
-      if (state.game) {
-        params.set("game", state.game);
+      for (const slug of state.games ?? []) {
+        params.append("game", slug);
       }
       if (state.activity) {
         params.set("activity", state.activity);
@@ -41,6 +50,12 @@ export function GameFilters({ isAuthed }: { isAuthed: boolean }) {
       if (state.notJoined) {
         params.set("notJoined", "1");
       }
+      if (state.from) {
+        params.set("from", state.from);
+      }
+      if (state.to) {
+        params.set("to", state.to);
+      }
       startTransition(() => {
         const query = params.toString();
         router.push(query ? `/?${query}` : "/");
@@ -49,32 +64,48 @@ export function GameFilters({ isAuthed }: { isAuthed: boolean }) {
     [router],
   );
 
+  const baseState = (): FilterState => ({
+    games: selectedGames.length ? [...selectedGames] : undefined,
+    activity: selectedActivity ?? undefined,
+    openOnly: openOnly || undefined,
+    notJoined: notJoined || undefined,
+    from: fromDate || undefined,
+    to: toDate || undefined,
+  });
+
   const selectShowAll = () => {
     pushFilters({});
   };
 
-  const selectGame = (slug: string) => {
-    if (selectedGame === slug) {
-      pushFilters({});
-      return;
+  const toggleGame = (slug: string) => {
+    const current = new Set(selectedGames);
+    if (current.has(slug)) {
+      current.delete(slug);
+    } else {
+      current.add(slug);
     }
-    pushFilters({ game: slug });
+    const games = [...current];
+    pushFilters({
+      ...baseState(),
+      games: games.length ? games : undefined,
+      activity: games.length === 1 ? selectedActivity ?? undefined : undefined,
+    });
   };
 
   const selectActivity = (activitySlug: string) => {
-    if (!selectedGame) {
+    if (selectedGames.length !== 1) {
       return;
     }
     if (selectedActivity === activitySlug) {
-      pushFilters({ game: selectedGame });
+      pushFilters({ ...baseState(), activity: undefined });
       return;
     }
-    pushFilters({ game: selectedGame, activity: activitySlug });
+    pushFilters({ ...baseState(), activity: activitySlug });
   };
 
-  const gameDef = selectedGame
-    ? GAMES.find((g) => g.slug === selectedGame)
-    : null;
+  const soleGame =
+    selectedGames.length === 1 ? selectedGames[0] : undefined;
+  const gameDef = soleGame ? GAMES.find((g) => g.slug === soleGame) : null;
   const activities = gameDef?.activities ?? [];
 
   return (
@@ -86,33 +117,14 @@ export function GameFilters({ isAuthed }: { isAuthed: boolean }) {
         <p className="filter-group-label text-xs text-[var(--fg-dim)] uppercase">
           {uiCopy.filters.game}
         </p>
-        <div className="filter-actions">
-          <button
-            type="button"
-            className={`btn text-xs ${showAll ? "btn-primary" : ""}`}
-            onClick={selectShowAll}
-            aria-pressed={showAll}
-          >
-            {uiCopy.filters.allGames}
-          </button>
-          {GAMES.map((g) => (
-            <button
-              key={g.slug}
-              type="button"
-              className={`btn text-xs ${selectedGame === g.slug ? "btn-primary" : ""}`}
-              onClick={() => selectGame(g.slug)}
-              aria-pressed={selectedGame === g.slug}
-            >
-              <GameName
-                gameSlug={g.slug}
-                size={16}
-                iconTone={selectedGame === g.slug ? "contrast" : "accent"}
-              />
-            </button>
-          ))}
-        </div>
+        <GameFilterButtons
+          showAll={showAll}
+          selectedGames={selectedGames}
+          onShowAll={selectShowAll}
+          onToggleGame={toggleGame}
+        />
       </div>
-      {selectedGame && activities.length > 0 && (
+      {soleGame && activities.length > 0 && (
         <div>
           <p className="filter-group-label text-xs text-[var(--fg-dim)] uppercase">
             {uiCopy.filters.mode}
@@ -132,17 +144,64 @@ export function GameFilters({ isAuthed }: { isAuthed: boolean }) {
           </div>
         </div>
       )}
+      <div className="filter-date-row">
+        <div className="form-field mb-0">
+          <label htmlFor="filter-from">{uiCopy.filters.fromDate}</label>
+          <input
+            id="filter-from"
+            type="date"
+            value={fromDate}
+            onChange={(e) => {
+              const value = e.target.value;
+              pushFilters({
+                ...baseState(),
+                from: value || undefined,
+              });
+            }}
+          />
+        </div>
+        <div className="form-field mb-0">
+          <label htmlFor="filter-to">{uiCopy.filters.toDate}</label>
+          <input
+            id="filter-to"
+            type="date"
+            value={toDate}
+            min={fromDate || undefined}
+            onChange={(e) => {
+              const value = e.target.value;
+              pushFilters({
+                ...baseState(),
+                to: value || undefined,
+              });
+            }}
+          />
+        </div>
+        {(fromDate || toDate) && (
+          <button
+            type="button"
+            className="btn text-xs self-end"
+            onClick={() =>
+              pushFilters({
+                ...baseState(),
+                from: undefined,
+                to: undefined,
+              })
+            }
+          >
+            {uiCopy.filters.clearDates}
+          </button>
+        )}
+      </div>
       <div className="filter-checks">
         <label className="flex items-center gap-3 text-sm cursor-pointer">
           <input
             type="checkbox"
             checked={openOnly}
             onChange={() => {
-              if (openOnly) {
-                pushFilters({});
-              } else {
-                pushFilters({ openOnly: true });
-              }
+              pushFilters({
+                ...baseState(),
+                openOnly: openOnly ? undefined : true,
+              });
             }}
           />
           {uiCopy.filters.withSpace}
@@ -153,11 +212,10 @@ export function GameFilters({ isAuthed }: { isAuthed: boolean }) {
               type="checkbox"
               checked={notJoined}
               onChange={() => {
-                if (notJoined) {
-                  pushFilters({});
-                } else {
-                  pushFilters({ notJoined: true });
-                }
+                pushFilters({
+                  ...baseState(),
+                  notJoined: notJoined ? undefined : true,
+                });
               }}
             />
             {uiCopy.filters.hideJoined}
@@ -165,5 +223,45 @@ export function GameFilters({ isAuthed }: { isAuthed: boolean }) {
         )}
       </div>
     </fieldset>
+  );
+}
+
+function GameFilterButtons({
+  showAll,
+  selectedGames,
+  onShowAll,
+  onToggleGame,
+}: {
+  showAll: boolean;
+  selectedGames: string[];
+  onShowAll: () => void;
+  onToggleGame: (slug: string) => void;
+}) {
+  return (
+    <div className="filter-actions">
+      <button
+        type="button"
+        className={`btn text-xs ${showAll ? "btn-primary" : ""}`}
+        onClick={onShowAll}
+        aria-pressed={showAll}
+      >
+        {uiCopy.filters.allGames}
+      </button>
+      {GAMES.map((g) => (
+        <button
+          key={g.slug}
+          type="button"
+          className={`btn text-xs ${selectedGames.includes(g.slug) ? "btn-primary" : ""}`}
+          onClick={() => onToggleGame(g.slug)}
+          aria-pressed={selectedGames.includes(g.slug)}
+        >
+          <GameName
+            gameSlug={g.slug}
+            size={16}
+            iconTone={selectedGames.includes(g.slug) ? "contrast" : "accent"}
+          />
+        </button>
+      ))}
+    </div>
   );
 }

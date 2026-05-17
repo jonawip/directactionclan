@@ -4,8 +4,11 @@ import {
   canJoinGame,
   canLeaveGame,
   createGameSchema,
+  updateGameSchema,
   validateCreateGame,
+  validateUpdateGame,
   type CreateGameInput,
+  type UpdateGameInput,
 } from "@/lib/games/rules";
 import { findActivity } from "@/lib/games/catalogue";
 import type { SupabaseClient } from "@supabase/supabase-js";
@@ -260,4 +263,82 @@ export async function cancelGame(
   revalidatePath("/");
   revalidatePath(`/games/${gameId}`);
   return {};
+}
+
+export async function updateGame(
+  supabase: Client,
+  userId: string,
+  gameId: string,
+  raw: UpdateGameInput,
+  options?: { canChangeMaxPlayers?: boolean },
+): Promise<{ game?: GameRow; error?: string }> {
+  const parsed = updateGameSchema.safeParse(raw);
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
+  }
+
+  const { data: existing } = await supabase
+    .from("games")
+    .select("*")
+    .eq("id", gameId)
+    .single();
+
+  if (!existing) {
+    return { error: "Game not found" };
+  }
+  if (existing.created_by !== userId) {
+    return { error: "Only the host can edit this game" };
+  }
+  if (existing.status === "cancelled" || existing.status === "completed") {
+    return { error: "This game can no longer be edited." };
+  }
+
+  const canChangeMaxPlayers = options?.canChangeMaxPlayers ?? true;
+  const ruleError = validateUpdateGame(
+    existing,
+    parsed.data,
+    canChangeMaxPlayers,
+  );
+  if (ruleError) {
+    return { error: ruleError };
+  }
+
+  const input = parsed.data;
+  const patch: {
+    title?: string;
+    description?: string | null;
+    starts_at?: string;
+    duration_minutes?: number;
+    max_players?: number;
+  } = {};
+  if (input.title !== undefined) {
+    patch.title = input.title;
+  }
+  if (input.description !== undefined) {
+    patch.description = input.description;
+  }
+  if (input.startsAt !== undefined) {
+    patch.starts_at = input.startsAt;
+  }
+  if (input.durationMinutes !== undefined) {
+    patch.duration_minutes = input.durationMinutes;
+  }
+  if (input.maxPlayers !== undefined) {
+    patch.max_players = input.maxPlayers;
+  }
+
+  const { data: game, error } = await supabase
+    .from("games")
+    .update(patch)
+    .eq("id", gameId)
+    .select()
+    .single();
+
+  if (error || !game) {
+    return { error: error?.message ?? "Failed to update game" };
+  }
+
+  revalidatePath("/");
+  revalidatePath(`/games/${gameId}`);
+  return { game };
 }

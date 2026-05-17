@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CardHero } from "@/components/CardHero";
@@ -12,6 +13,57 @@ import { renderSimpleMarkdown } from "@/lib/markdown";
 import { createClient } from "@/lib/supabase/server";
 import { statusLabel, uiCopy } from "@/lib/ui/copy";
 import { GameActions } from "./GameActions";
+
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://games.directaction.monster";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}): Promise<Metadata> {
+  const { id } = await params;
+  const supabase = await createClient();
+  const game = await fetchGameById(supabase, id);
+
+  if (!game) {
+    return { title: "Game not found" };
+  }
+
+  const gameDef = findGame(game.game_slug);
+  const activity = findActivity(game.game_slug, game.activity_slug);
+  const title = `${game.title} · ${gameDef?.name ?? "Direct Action Games"}`;
+  const description = [
+    activity?.name,
+    gameDef?.name,
+    `Hosted by ${game.creator.display_name}`,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+
+  const heroPath = activity?.heroSrc;
+  const images = heroPath
+    ? [{ url: `${siteUrl}${heroPath}`, alt: game.title }]
+    : undefined;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `${siteUrl}/games/${id}`,
+      type: "website",
+      images,
+    },
+    twitter: {
+      card: images ? "summary_large_image" : "summary",
+      title,
+      description,
+      images: images?.map((i) => i.url),
+    },
+  };
+}
 
 export default async function GameDetailPage({
   params,
@@ -143,6 +195,16 @@ export default async function GameDetailPage({
         status={game.status}
         isAuthed={!!userId}
         canEditCore={canEditCore}
+        timezone={timezone}
+        gameSlug={game.game_slug}
+        activitySlug={game.activity_slug}
+        initial={{
+          title: game.title,
+          description: game.description,
+          startsAt: game.starts_at,
+          durationMinutes: game.duration_minutes,
+          maxPlayers: game.max_players,
+        }}
       />
     </article>
   );

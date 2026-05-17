@@ -7,6 +7,44 @@ export function localDateTimeToIso(
   return localToIso(`${datePart}T${timePart}`, timezone);
 }
 
+export function isoToLocalParts(
+  iso: string,
+  timezone: string,
+): { date: string; time: string } {
+  const formatted = new Intl.DateTimeFormat("sv-SE", {
+    timeZone: timezone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  }).format(new Date(iso));
+
+  const [date, timeWithSeconds] = formatted.split(" ");
+  return {
+    date: date ?? "",
+    time: (timeWithSeconds ?? "12:00:00").slice(0, 5),
+  };
+}
+
+/** Start of calendar day in the given IANA timezone, as UTC ISO. */
+export function dateInTimezoneToUtcStart(
+  datePart: string,
+  timezone: string,
+): string {
+  return localDateTimeToIso(datePart, "00:00", timezone);
+}
+
+/** End of calendar day in the given IANA timezone, as UTC ISO. */
+export function dateInTimezoneToUtcEnd(
+  datePart: string,
+  timezone: string,
+): string {
+  return localDateTimeToIso(datePart, "23:59", timezone);
+}
+
 export function defaultStartParts(timezone: string): { date: string; time: string } {
   const d = new Date();
   d.setHours(d.getHours() + 2, 0, 0, 0);

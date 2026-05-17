@@ -1,6 +1,6 @@
 ---
 import Logo from './Logo.astro';
-import { DISCORD_INVITE } from '../constants.ts';
+import { DISCORD_INVITE, GAMES_SITE_URL } from '../constants.ts';
 ---
 <footer>
   <div class="wrap">
@@ -19,6 +19,7 @@ import { DISCORD_INVITE } from '../constants.ts';
         <a href="/doctrine">Doctrine</a>
         <a href="/#transmission">Transmission</a>
         <a href="/rotation">Rotation</a>
+        <a href={GAMES_SITE_URL} rel="noopener noreferrer">Games</a>
       </nav>
       <div class="footer-col">
         <p class="footer-heading">// Solidarity</p>

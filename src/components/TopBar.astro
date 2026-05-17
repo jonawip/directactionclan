@@ -1,5 +1,6 @@
 ---
 import Logo from './Logo.astro';
+import { GAMES_SITE_URL } from '../constants.ts';
 
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isHome = pathname === '/';
@@ -28,6 +29,7 @@ const page = (p: string) => pathname === p;
       <a href="/doctrine" aria-current={page('/doctrine') ? 'page' : undefined}>Doctrine</a>
       <a href={h('transmission')}>Transmission</a>
       <a href="/rotation" aria-current={page('/rotation') ? 'page' : undefined}>Rotation</a>
+      <a href={GAMES_SITE_URL} rel="noopener noreferrer">Games</a>
       <a href="/join" aria-current={page('/join') ? 'page' : undefined}>Join</a>
     </nav>
     <div class="status">
