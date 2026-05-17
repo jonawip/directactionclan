@@ -1,4 +1,6 @@
+import type { SupabaseClient } from "@supabase/supabase-js";
 import type { WebhookEvent } from "@/types/domain";
+import type { Database } from "@/types/db";
 
 /** Half-width of the start-time window (minutes). Cron runs every 5 minutes. */
 export const REMINDER_WINDOW_HALF_MINUTES = 3;
@@ -23,7 +25,34 @@ export const GAME_START_REMINDERS: GameReminderSchedule[] = [
     lead: "Starts in about **30 minutes**.",
     titleSuffix: "30 minutes",
   },
+  {
+    event: "game.reminder_5m",
+    minutesBefore: 5,
+    lead: "Starts in about **5 minutes**.",
+    titleSuffix: "5 minutes",
+  },
 ];
+
+export async function rsvpCountByGameId(
+  admin: SupabaseClient<Database>,
+  gameIds: string[],
+): Promise<Map<string, number>> {
+  const counts = new Map<string, number>();
+  if (gameIds.length === 0) {
+    return counts;
+  }
+
+  const { data: rsvps } = await admin
+    .from("rsvps")
+    .select("game_id")
+    .in("game_id", gameIds);
+
+  for (const row of rsvps ?? []) {
+    counts.set(row.game_id, (counts.get(row.game_id) ?? 0) + 1);
+  }
+
+  return counts;
+}
 
 export function reminderWindow(
   now: Date,

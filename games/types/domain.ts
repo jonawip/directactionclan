@@ -21,6 +21,7 @@ export type WebhookEvent =
   | "game.full"
   | "game.cancelled"
   | "game.reminder_60m"
-  | "game.reminder_30m";
+  | "game.reminder_30m"
+  | "game.reminder_5m";
 
 export type AccentColour = "acid" | "pink" | "cyan";

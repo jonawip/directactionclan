@@ -115,11 +115,13 @@ const ONE_SHOT_WEBHOOK_EVENTS: WebhookEvent[] = [
   "game.cancelled",
   "game.reminder_60m",
   "game.reminder_30m",
+  "game.reminder_5m",
 ];
 
 const REMINDER_EVENTS: WebhookEvent[] = [
   "game.reminder_60m",
   "game.reminder_30m",
+  "game.reminder_5m",
 ];
 
 function isReminderEvent(event: WebhookEvent): boolean {
@@ -141,6 +143,11 @@ function reminderCopy(event: WebhookEvent): {
         lead: "Starts in about **30 minutes**.",
         titleSuffix: "30 minutes",
       };
+    case "game.reminder_5m":
+      return {
+        lead: "Starts in about **5 minutes**.",
+        titleSuffix: "5 minutes",
+      };
     default:
       return { lead: "Starting soon.", titleSuffix: "soon" };
   }
@@ -154,6 +161,19 @@ function slotsLabel(open: number): string {
     return "1 spot left";
   }
   return `${open} spots left`;
+}
+
+function crewStatusLabel(
+  game: GameRow,
+  openSlots: number | undefined,
+): string {
+  if (game.status === "full" || openSlots === 0) {
+    return "Run is full";
+  }
+  if (openSlots !== undefined) {
+    return slotsLabel(openSlots);
+  }
+  return slotsLabel(game.max_players);
 }
 
 function playerLabel(
@@ -332,7 +352,8 @@ export async function dispatchGameWebhook(
       break;
     }
     case "game.reminder_60m":
-    case "game.reminder_30m": {
+    case "game.reminder_30m":
+    case "game.reminder_5m": {
       const { lead, titleSuffix } = reminderCopy(event);
       embed = withHeroImage(
         {
@@ -341,11 +362,19 @@ export async function dispatchGameWebhook(
           color: colour,
           description: embedDescription(game, { lead }),
           fields: [
-            { name: "Starts", value: discordTimestamp(game.starts_at) },
+            {
+              name: "Starts",
+              value: discordTimestamp(game.starts_at),
+              inline: true,
+            },
+            {
+              name: "Crew",
+              value: crewStatusLabel(game, extra?.openSlots),
+              inline: true,
+            },
             {
               name: "Host",
               value: host.handle ? `@${host.handle}` : host.display_name,
-              inline: true,
             },
           ],
           footer: { text: "Direct Action Games · reminders" },

@@ -3,6 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import {
   GAME_START_REMINDERS,
   reminderWindow,
+  rsvpCountByGameId,
 } from "@/lib/cron/game-reminders";
 import { dispatchGameWebhook } from "@/lib/discord/webhook";
 
@@ -29,12 +30,19 @@ export async function GET(request: Request) {
       .lte("starts_at", end)
       .in("status", ["open", "full"]);
 
+    const gameIds = (games ?? []).map((row) => row.id);
+    const rsvpCounts = await rsvpCountByGameId(admin, gameIds);
+
     let notified = 0;
     for (const row of games ?? []) {
       const { profiles, ...game } = row as typeof row & {
         profiles: { display_name: string; handle: string | null };
       };
-      await dispatchGameWebhook(schedule.event, game, profiles);
+      const filled = rsvpCounts.get(game.id) ?? 0;
+      const openSlots = Math.max(0, game.max_players - filled);
+      await dispatchGameWebhook(schedule.event, game, profiles, {
+        openSlots,
+      });
       notified += 1;
     }
 
