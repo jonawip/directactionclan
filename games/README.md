@@ -41,6 +41,17 @@ Discord OAuth redirect for the Discord app:
 
 Edit `lib/games/catalogue.ts` and redeploy. No database migration required.
 
+## Ranks and titles
+
+Member ranks are computed from participation (no extra database tables):
+
+- **Participation** — count of RSVPs on non-cancelled games (`Boot` → `Direct Action`).
+- **Hosting** — optional host titles from games posted (`Caller`, `Mission lead`, `Ops coordinator`).
+
+Tier thresholds live in `lib/gamification/ranks.ts`. Ranks appear on profiles, game detail (host + crew), and the rank ladder on your own profile.
+
+Auth is **Discord and Google only** (no Apple Sign-In).
+
 ## Discord webhooks
 
 Create webhooks under Discord server → Integrations → Webhooks. Paste URLs into Vercel env vars. To rotate, update env and redeploy.

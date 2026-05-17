@@ -1,5 +1,8 @@
 import Link from "next/link";
+import { MemberRank } from "@/components/MemberRank";
+import { RankLadder } from "@/components/RankLadder";
 import { requireUser } from "@/lib/auth/require";
+import { fetchMemberStats } from "@/lib/gamification/stats";
 import { createClient } from "@/lib/supabase/server";
 import { uiCopy } from "@/lib/ui/copy";
 import { ProfileForm } from "./ProfileForm";
@@ -17,6 +20,8 @@ export default async function ProfilePage() {
   if (!profile) {
     return <p>Profile not found.</p>;
   }
+
+  const stats = await fetchMemberStats(supabase, user.id);
 
   const { data: hosted } = await supabase
     .from("games")
@@ -46,6 +51,8 @@ export default async function ProfilePage() {
       <h1 className="font-display text-2xl text-[var(--acid)] mb-6">
         {uiCopy.profile.title}
       </h1>
+      <MemberRank stats={stats} variant="card" />
+      <RankLadder />
       <ProfileForm profile={profile} />
       <hr className="barcode" />
       <h2 className="font-label text-xl mb-3">{uiCopy.profile.upcomingJoined}</h2>

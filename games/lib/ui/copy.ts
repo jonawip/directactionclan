@@ -103,6 +103,21 @@ export const uiCopy = {
     title: "Sign in",
     body: "Use Discord or Google to sign in to Direct Action Games.",
   },
+  ranks: {
+    cardLabel: (title: string) => `Rank: ${title}`,
+    joined: "Sessions joined",
+    hosted: "Sessions posted",
+    progress: (remaining: number, nextTitle: string) =>
+      remaining === 1
+        ? `1 more session to reach ${nextTitle}.`
+        : `${remaining} more sessions to reach ${nextTitle}.`,
+    ladderTitle: "Rank ladder",
+    ladderJoined: "Participation",
+    ladderHosted: "Hosting",
+    ladderReqJoined: (min: number) =>
+      min === 0 ? "Starting rank" : `${min}+ sessions joined`,
+    ladderReqHosted: (min: number) => `${min}+ sessions posted`,
+  },
 } as const;
 
 export function statusLabel(status: string): string {

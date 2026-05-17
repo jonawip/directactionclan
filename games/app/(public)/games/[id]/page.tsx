@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { CardHero } from "@/components/CardHero";
 import { GameName } from "@/components/GameName";
 import { LocalTime } from "@/components/LocalTime";
+import { MemberRank } from "@/components/MemberRank";
 import { SlotGrid } from "@/components/SlotGrid";
+import { fetchMemberStatsBatch } from "@/lib/gamification/stats";
 import { getOptionalUser } from "@/lib/auth/require";
 import { accentCssVar, findActivity, findGame } from "@/lib/games/catalogue";
 import { fetchGameById, fetchUpcomingGames } from "@/lib/games/queries";
@@ -120,6 +122,10 @@ export default async function GameDetailPage({
   const accent = gameDef?.accent ?? "acid";
   const heroSrc = activity?.heroSrc;
 
+  const crewIds = [...new Set(game.rsvps.map((r) => r.user_id))];
+  const memberStats = await fetchMemberStatsBatch(supabase, crewIds);
+  const hostStats = memberStats.get(game.created_by);
+
   return (
     <article>
       {heroSrc ? (
@@ -147,17 +153,22 @@ export default async function GameDetailPage({
         <p className="m-0 mt-4">
           <LocalTime iso={game.starts_at} timezone={timezone} />
         </p>
-        <p className="text-sm text-[var(--fg-dim)] m-0 mt-3">
-          {uiCopy.detail.hostedBy}{" "}
-          {game.creator.handle ? (
-            <Link href={`/profile/${game.creator.handle}`}>
-              @{game.creator.handle}
-            </Link>
-          ) : (
-            game.creator.display_name
-          )}{" "}
-          · {uiCopy.detail.duration(game.duration_minutes)} ·{" "}
-          {uiCopy.detail.status(statusLabel(game.status))}
+        <p className="text-sm text-[var(--fg-dim)] m-0 mt-3 flex flex-wrap items-center gap-x-2 gap-y-1">
+          <span>
+            {uiCopy.detail.hostedBy}{" "}
+            {game.creator.handle ? (
+              <Link href={`/profile/${game.creator.handle}`}>
+                @{game.creator.handle}
+              </Link>
+            ) : (
+              game.creator.display_name
+            )}
+          </span>
+          {hostStats && <MemberRank stats={hostStats} variant="compact" />}
+          <span aria-hidden>·</span>
+          <span>{uiCopy.detail.duration(game.duration_minutes)}</span>
+          <span aria-hidden>·</span>
+          <span>{uiCopy.detail.status(statusLabel(game.status))}</span>
         </p>
       </header>
 
@@ -185,7 +196,11 @@ export default async function GameDetailPage({
 
       <section className="detail-section">
         <h2 className="font-label text-xl">{uiCopy.detail.players}</h2>
-        <SlotGrid maxPlayers={game.max_players} rsvps={game.rsvps} />
+        <SlotGrid
+          maxPlayers={game.max_players}
+          rsvps={game.rsvps}
+          memberStats={memberStats}
+        />
       </section>
 
       <GameActions

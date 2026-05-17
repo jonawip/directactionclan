@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { MemberRank } from "@/components/MemberRank";
+import { RankLadder } from "@/components/RankLadder";
 import { getOptionalUser } from "@/lib/auth/require";
+import { fetchMemberStats } from "@/lib/gamification/stats";
 import { createClient } from "@/lib/supabase/server";
 import { uiCopy } from "@/lib/ui/copy";
 
@@ -23,6 +26,7 @@ export default async function PublicProfilePage({ params }: Params) {
   }
 
   const isSelf = user?.id === profile.id;
+  const stats = await fetchMemberStats(supabase, profile.id);
 
   const { data: hosted } = await supabase
     .from("games")
@@ -73,6 +77,9 @@ export default async function PublicProfilePage({ params }: Params) {
             {uiCopy.profile.memberTitle(profile.display_name)}
           </h1>
           <p className="text-[var(--fg-dim)] m-0 mt-1">@{profile.handle}</p>
+          <p className="m-0 mt-2">
+            <MemberRank stats={stats} variant="compact" />
+          </p>
           {isSelf && (
             <p className="m-0 mt-3">
               <Link href="/profile" className="text-[var(--cyan)]">
@@ -83,7 +90,9 @@ export default async function PublicProfilePage({ params }: Params) {
         </div>
       </header>
       <hr className="barcode" />
-      <h2 className="font-label text-xl mb-3">{uiCopy.profile.memberJoined}</h2>
+      <MemberRank stats={stats} variant="card" />
+      {isSelf && <RankLadder />}
+      <h2 className="font-label text-xl mb-3 mt-8">{uiCopy.profile.memberJoined}</h2>
       <GameList items={upcomingJoined} empty={uiCopy.profile.memberNoJoined} />
       <h2 className="font-label text-xl mb-3 mt-8">
         {uiCopy.profile.memberHosted}

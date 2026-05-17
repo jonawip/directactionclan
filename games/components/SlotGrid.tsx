@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { MemberRank } from "@/components/MemberRank";
+import type { MemberStats } from "@/lib/gamification/ranks";
 import { uiCopy } from "@/lib/ui/copy";
 import type { RsvpWithProfile } from "@/types/domain";
 
@@ -6,9 +8,15 @@ type Props = {
   maxPlayers: number;
   rsvps: RsvpWithProfile[];
   variant?: "default" | "card";
+  memberStats?: Map<string, MemberStats>;
 };
 
-export function SlotGrid({ maxPlayers, rsvps, variant = "default" }: Props) {
+export function SlotGrid({
+  maxPlayers,
+  rsvps,
+  variant = "default",
+  memberStats,
+}: Props) {
   const slots = Array.from({ length: maxPlayers }, (_, i) => {
     const rsvp = rsvps[i];
     return rsvp ?? null;
@@ -51,13 +59,21 @@ export function SlotGrid({ maxPlayers, rsvps, variant = "default" }: Props) {
                   {(rsvp.profiles.display_name[0] ?? "?").toUpperCase()}
                 </span>
               )}
-              <span className="truncate">
-                {rsvp.profiles.handle ? (
-                  <Link href={`/profile/${rsvp.profiles.handle}`}>
-                    @{rsvp.profiles.handle}
-                  </Link>
-                ) : (
-                  rsvp.profiles.display_name
+              <span className="slot-grid-player truncate">
+                <span className="slot-grid-name">
+                  {rsvp.profiles.handle ? (
+                    <Link href={`/profile/${rsvp.profiles.handle}`}>
+                      @{rsvp.profiles.handle}
+                    </Link>
+                  ) : (
+                    rsvp.profiles.display_name
+                  )}
+                </span>
+                {memberStats?.get(rsvp.user_id) && (
+                  <MemberRank
+                    stats={memberStats.get(rsvp.user_id)!}
+                    variant="compact"
+                  />
                 )}
               </span>
             </>

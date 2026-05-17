@@ -736,3 +736,114 @@ body::before {
 .filter-date-row .form-field {
   min-width: 10rem;
 }
+
+.member-rank--compact {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  align-items: center;
+}
+
+.rank-badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--rank-accent, var(--acid));
+  color: var(--rank-accent, var(--acid));
+  background: color-mix(in srgb, var(--rank-accent, var(--acid)) 12%, transparent);
+}
+
+.rank-badge--host {
+  border-style: dashed;
+}
+
+.member-rank-card {
+  margin-bottom: var(--space-lg);
+  padding: var(--space-lg);
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+}
+
+.member-rank-card-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: var(--space-sm);
+}
+
+.member-rank-tagline {
+  margin-bottom: var(--space-md);
+}
+
+.member-rank-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-md);
+  margin: 0 0 var(--space-md);
+}
+
+.member-rank-stats dt {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--fg-faint);
+}
+
+.member-rank-stats dd {
+  margin: 0.25rem 0 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.member-rank-host-note {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--fg-dim);
+}
+
+.member-rank-progress {
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--line);
+}
+
+.slot-grid-player {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.rank-ladder-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.rank-ladder-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.15rem 1rem;
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid var(--line);
+}
+
+.rank-ladder-title {
+  font-weight: 600;
+  color: var(--acid);
+}
+
+.rank-ladder-req {
+  font-size: 0.75rem;
+  color: var(--fg-faint);
+  text-align: right;
+}
+
+.rank-ladder-tag {
+  grid-column: 1 / -1;
+  font-size: 0.8rem;
+  color: var(--fg-dim);
+}
