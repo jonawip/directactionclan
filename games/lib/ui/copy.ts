@@ -93,7 +93,7 @@ export const uiCopy = {
     handleHint:
       "Short link for your page (e.g. an_actual_crab). Letters, numbers, _ and - only.",
     bungieLabel: "Bungie name",
-    bungieHint: "Your Bungie.net name with numbers, e.g. An_Actual_Crab#6497",
+    bungieHint: "Your Bungie.net name with numbers, e.g. Example#1234",
     memberTitle: (name: string) => `${name}'s profile`,
     upcomingJoined: "Games you've joined",
     upcomingHosted: "Games you've posted",

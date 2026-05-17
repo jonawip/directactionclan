@@ -18,7 +18,7 @@ export const profileSchema = z.object({
     .string()
     .trim()
     .refine((value) => value === "" || bungieNameRegex.test(value), {
-      message: "Bungie name must look like Name#1234 (e.g. An_Actual_Crab#6497).",
+      message: "Bungie name must look like Example#1234.",
     }),
   timezone: z.string().min(1),
 });

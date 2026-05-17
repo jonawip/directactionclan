@@ -62,7 +62,7 @@ export function ProfileForm({ profile }: { profile: ProfileRow }) {
           id="bungie_name"
           name="bungie_name"
           defaultValue={profile.bungie_name ?? ""}
-          placeholder="An_Actual_Crab#6497"
+          placeholder="Example#1234"
           autoComplete="off"
           spellCheck={false}
         />
