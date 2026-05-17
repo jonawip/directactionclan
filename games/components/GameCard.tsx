@@ -88,16 +88,15 @@ export function GameCard({ game, viewerTimezone }: Props) {
                 : game.creator.display_name}
             </span>
           </p>
-
-          <div className="session-card-crew">
-            <SlotGrid
-              maxPlayers={game.max_players}
-              rsvps={game.rsvps}
-              variant="card"
-            />
-          </div>
         </div>
       </Link>
+      <div className="session-card-crew">
+        <SlotGrid
+          maxPlayers={game.max_players}
+          rsvps={game.rsvps}
+          variant="card"
+        />
+      </div>
     </article>
   );
 }

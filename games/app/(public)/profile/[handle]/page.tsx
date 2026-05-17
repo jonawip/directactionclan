@@ -115,10 +115,10 @@ function GameList({
   return (
     <ul className="list-none m-0 p-0 space-y-2">
       {items.map((g) => (
-        <li key={g.id}>
+        <li key={g.id} className="profile-game-item">
           <Link href={`/games/${g.id}`} className="text-[var(--cyan)]">
             {g.title}
-          </Link>{" "}
+          </Link>
           <span className="text-[var(--fg-dim)] text-xs">
             {new Date(g.starts_at).toLocaleString()} · {g.status}
           </span>

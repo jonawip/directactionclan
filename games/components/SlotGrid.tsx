@@ -24,8 +24,8 @@ export function SlotGrid({
 
   const gridClass =
     variant === "card"
-      ? "slot-grid slot-grid--card grid grid-cols-3 list-none m-0 p-0 sm:grid-cols-4"
-      : "slot-grid grid grid-cols-3 list-none m-0 p-0 sm:grid-cols-4";
+      ? "slot-grid slot-grid--card grid grid-cols-2 list-none m-0 p-0 sm:grid-cols-3 md:grid-cols-4"
+      : "slot-grid grid grid-cols-2 list-none m-0 p-0 sm:grid-cols-3 md:grid-cols-4";
 
   return (
     <ul

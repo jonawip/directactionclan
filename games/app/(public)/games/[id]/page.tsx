@@ -147,7 +147,7 @@ export default async function GameDetailPage({
             </>
           )}
         </p>
-        <h1 className="font-display text-3xl m-0 mt-3">
+        <h1 className="font-display page-heading m-0 mt-3">
           {game.title}
         </h1>
         <p className="m-0 mt-4">
@@ -189,7 +189,7 @@ export default async function GameDetailPage({
 
       {game.description && (
         <MarkdownBlock
-          className="detail-section text-[var(--fg-dim)]"
+          className="detail-section prose-safe text-[var(--fg-dim)]"
           html={renderSimpleMarkdown(game.description)}
         />
       )}

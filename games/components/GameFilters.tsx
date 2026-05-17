@@ -193,7 +193,7 @@ export function GameFilters({ isAuthed }: { isAuthed: boolean }) {
         )}
       </div>
       <div className="filter-checks">
-        <label className="flex items-center gap-3 text-sm cursor-pointer">
+        <label className="filter-check-label text-sm">
           <input
             type="checkbox"
             checked={openOnly}
@@ -207,7 +207,7 @@ export function GameFilters({ isAuthed }: { isAuthed: boolean }) {
           {uiCopy.filters.withSpace}
         </label>
         {isAuthed && (
-          <label className="flex items-center gap-3 text-sm cursor-pointer">
+          <label className="filter-check-label text-sm">
             <input
               type="checkbox"
               checked={notJoined}

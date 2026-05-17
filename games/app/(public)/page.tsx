@@ -58,7 +58,7 @@ export default async function HomePage({
   return (
     <>
       <header className="page-header">
-        <h1 className="font-display text-3xl text-[var(--acid)] tracking-widest">
+        <h1 className="font-display page-heading text-[var(--acid)]">
           {uiCopy.feed.title}
         </h1>
         <p className="text-[var(--fg-dim)]">{uiCopy.feed.subtitle}</p>

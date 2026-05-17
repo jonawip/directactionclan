@@ -16,7 +16,7 @@ export default async function LeaderboardPage() {
   return (
     <section>
       <header className="page-header">
-        <h1 className="font-display text-3xl text-[var(--acid)] m-0">
+        <h1 className="font-display page-heading text-[var(--acid)] m-0">
           {uiCopy.leaderboard.title}
         </h1>
         <p className="text-[var(--fg-dim)] m-0 mt-3 max-w-xl">
