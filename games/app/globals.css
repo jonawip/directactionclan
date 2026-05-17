@@ -847,3 +847,89 @@ body::before {
   font-size: 0.8rem;
   color: var(--fg-dim);
 }
+
+.leaderboard-grid {
+  display: grid;
+  gap: var(--space-2xl);
+}
+
+@media (min-width: 960px) {
+  .leaderboard-grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.leaderboard-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.leaderboard-row {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  gap: var(--space-md);
+  align-items: start;
+  padding: var(--space-md);
+  border: 1px solid var(--line);
+  background: var(--bg-2);
+}
+
+.leaderboard-rank {
+  font-family: var(--font-futura), sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--acid);
+  min-width: 1.75rem;
+  text-align: center;
+}
+
+.leaderboard-avatar img,
+.leaderboard-avatar-fallback {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+}
+
+.leaderboard-avatar-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-3);
+  color: var(--acid);
+  font-weight: 700;
+}
+
+.leaderboard-name-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.leaderboard-name {
+  font-weight: 600;
+  color: var(--cyan);
+  text-decoration: none;
+}
+
+.leaderboard-name:hover {
+  text-decoration: underline;
+}
+
+.leaderboard-degenerate {
+  font-size: 0.9rem;
+  color: var(--pink);
+  font-style: italic;
+}
+
+.leaderboard-metric {
+  font-size: 0.75rem;
+  color: var(--fg-faint);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 0.35rem;
+}

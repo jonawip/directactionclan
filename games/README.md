@@ -48,7 +48,7 @@ Member ranks are computed from participation (no extra database tables):
 - **Participation** — count of RSVPs on non-cancelled games (`Boot` → `Direct Action`).
 - **Hosting** — optional host titles from games posted (`Caller`, `Mission lead`, `Ops coordinator`).
 
-Tier thresholds live in `lib/gamification/ranks.ts`. Ranks appear on profiles, game detail (host + crew), and the rank ladder on your own profile.
+Tier thresholds live in `lib/gamification/ranks.ts`. Ranks appear on profiles, game detail (host + crew), and the rank ladder on your own profile. **`/leaderboard`** shows top joiners and hosts with degenerate subtitles from `lib/gamification/degenerate.ts`.
 
 Auth is **Discord and Google only** (no Apple Sign-In).
 

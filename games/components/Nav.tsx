@@ -24,6 +24,11 @@ export function Nav() {
             </Link>
           </li>
           <li>
+            <Link href="/leaderboard" className="btn text-sm">
+              {uiCopy.nav.leaderboard}
+            </Link>
+          </li>
+          <li>
             <Link href="/profile" className="btn text-sm">
               {uiCopy.nav.profile}
             </Link>

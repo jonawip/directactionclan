@@ -6,6 +6,7 @@ export const uiCopy = {
   },
   nav: {
     postGame: "Post a game",
+    leaderboard: "Leaderboard",
     profile: "Profile",
     signIn: "Sign in",
     signOut: "Sign out",
@@ -102,6 +103,18 @@ export const uiCopy = {
   login: {
     title: "Sign in",
     body: "Use Discord or Google to sign in to Direct Action Games.",
+  },
+  leaderboard: {
+    title: "Hall of chronically online",
+    metaDescription:
+      "Direct Action Games leaderboards — most sessions joined and posted.",
+    subtitle:
+      "Official ranks plus completely unserious titles. Cancelled games do not count. Touch grass optional.",
+    joinedHeading: "Most sessions joined",
+    hostedHeading: "Most sessions posted",
+    sessionsJoined: "sessions joined",
+    sessionsPosted: "sessions posted",
+    empty: "No one on the board yet. Post a game or join one.",
   },
   ranks: {
     cardLabel: (title: string) => `Rank: ${title}`,
