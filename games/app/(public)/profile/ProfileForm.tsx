@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import type { ProfileRow } from "@/types/domain";
+import { uiCopy } from "@/lib/ui/copy";
 import { updateProfileAction } from "./actions";
 
 const TIMEZONES =
@@ -43,14 +44,29 @@ export function ProfileForm({ profile }: { profile: ProfileRow }) {
         />
       </div>
       <div className="form-field">
-        <label htmlFor="handle">Handle</label>
+        <label htmlFor="handle">{uiCopy.profile.handleLabel}</label>
         <input
           id="handle"
           name="handle"
           defaultValue={profile.handle ?? ""}
           pattern="[a-z0-9_-]{3,24}"
-          title="3–24 characters: lowercase letters, numbers, underscore, hyphen"
+          title={uiCopy.profile.handleHint}
+          autoComplete="username"
+          spellCheck={false}
         />
+        <p className="form-field-hint">{uiCopy.profile.handleHint}</p>
+      </div>
+      <div className="form-field">
+        <label htmlFor="bungie_name">{uiCopy.profile.bungieLabel}</label>
+        <input
+          id="bungie_name"
+          name="bungie_name"
+          defaultValue={profile.bungie_name ?? ""}
+          placeholder="An_Actual_Crab#6497"
+          autoComplete="off"
+          spellCheck={false}
+        />
+        <p className="form-field-hint">{uiCopy.profile.bungieHint}</p>
       </div>
       <div className="form-field">
         <label htmlFor="timezone">Timezone</label>

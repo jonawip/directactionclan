@@ -1,27 +1,16 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { z } from "zod";
 import { requireUser } from "@/lib/auth/require";
+import { profileSchema } from "@/lib/profile/validation";
 import { createClient } from "@/lib/supabase/server";
-
-const profileSchema = z.object({
-  display_name: z.string().trim().min(1).max(64),
-  handle: z
-    .string()
-    .trim()
-    .toLowerCase()
-    .regex(/^[a-z0-9_-]{3,24}$/)
-    .optional()
-    .or(z.literal("")),
-  timezone: z.string().min(1),
-});
 
 export async function updateProfileAction(formData: FormData) {
   const user = await requireUser("/profile");
   const parsed = profileSchema.safeParse({
     display_name: formData.get("display_name"),
     handle: formData.get("handle"),
+    bungie_name: formData.get("bungie_name"),
     timezone: formData.get("timezone"),
   });
 
@@ -29,7 +18,7 @@ export async function updateProfileAction(formData: FormData) {
     return { error: parsed.error.issues[0]?.message ?? "Invalid input" };
   }
 
-  const { display_name, handle, timezone } = parsed.data;
+  const { display_name, handle, bungie_name, timezone } = parsed.data;
   const supabase = await createClient();
 
   if (handle) {
@@ -50,6 +39,7 @@ export async function updateProfileAction(formData: FormData) {
     .update({
       display_name,
       handle: handle || null,
+      bungie_name: bungie_name || null,
       timezone,
     })
     .eq("id", user.id);
@@ -60,5 +50,8 @@ export async function updateProfileAction(formData: FormData) {
 
   revalidatePath("/");
   revalidatePath("/profile");
+  if (handle) {
+    revalidatePath(`/profile/${handle}`);
+  }
   return {};
 }

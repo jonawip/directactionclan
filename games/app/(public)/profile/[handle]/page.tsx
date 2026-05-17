@@ -17,7 +17,7 @@ export default async function PublicProfilePage({ params }: Params) {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("id, display_name, handle, avatar_url, timezone")
+    .select("id, display_name, handle, bungie_name, avatar_url, timezone")
     .ilike("handle", normalized)
     .maybeSingle();
 
@@ -76,7 +76,14 @@ export default async function PublicProfilePage({ params }: Params) {
           <h1 className="font-display text-2xl text-[var(--acid)] m-0">
             {uiCopy.profile.memberTitle(profile.display_name)}
           </h1>
-          <p className="text-[var(--fg-dim)] m-0 mt-1">@{profile.handle}</p>
+          {profile.handle && (
+            <p className="text-[var(--fg-dim)] m-0 mt-1">@{profile.handle}</p>
+          )}
+          {profile.bungie_name && (
+            <p className="text-[var(--fg-dim)] m-0 mt-1">
+              {uiCopy.profile.bungieLabel}: {profile.bungie_name}
+            </p>
+          )}
           <p className="m-0 mt-2">
             <MemberRank stats={stats} variant="compact" />
           </p>
