@@ -56,6 +56,8 @@ Auth is **Discord and Google only** (no Apple Sign-In).
 
 Create webhooks under Discord server → Integrations → Webhooks. Paste URLs into Vercel env vars. To rotate, update env and redeploy.
 
+Announcements embed the activity hero image and session notes (when provided). Images must be reachable at your public `NEXT_PUBLIC_SITE_URL` (Discord cannot load `localhost`).
+
 ## Smart rules (server-enforced)
 
 1. Start time: now + 15 minutes … now + 30 days  

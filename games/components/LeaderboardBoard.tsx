@@ -80,7 +80,11 @@ function LeaderboardBody({
         )}
         <MemberRank stats={entry.stats} variant="compact" />
       </div>
-      <p className="leaderboard-degenerate m-0">{entry.degenerateTitle}</p>
+      <div className="leaderboard-tags">
+        <span className="tag-pill tag-pill--degenerate">
+          {entry.degenerateTitle}
+        </span>
+      </div>
       <p className="leaderboard-metric m-0">
         {count} {metricLabel}
       </p>

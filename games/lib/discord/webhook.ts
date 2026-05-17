@@ -10,9 +10,14 @@ export type DiscordEmbed = {
   description?: string;
   color?: number;
   fields?: { name: string; value: string; inline?: boolean }[];
+  image?: { url: string };
+  thumbnail?: { url: string };
   timestamp?: string;
   footer?: { text: string };
 };
+
+const EMBED_DESCRIPTION_MAX = 4096;
+const NOTES_MAX = 900;
 
 const COLOURS = {
   acid: 0xd4ff1a,
@@ -20,6 +25,60 @@ const COLOURS = {
   cyan: 0x00e5ff,
   muted: 0x4a473e,
 } as const;
+
+function siteBaseUrl(): string {
+  return (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(
+    /\/$/,
+    "",
+  );
+}
+
+function absoluteAssetUrl(path: string): string {
+  return `${siteBaseUrl()}${path.startsWith("/") ? path : `/${path}`}`;
+}
+
+function truncate(text: string, max: number): string {
+  if (text.length <= max) {
+    return text;
+  }
+  return `${text.slice(0, max - 1)}…`;
+}
+
+function heroImageForGame(game: GameRow): { url: string } | undefined {
+  const activity = findActivity(game.game_slug, game.activity_slug);
+  if (!activity?.heroSrc) {
+    return undefined;
+  }
+  return { url: absoluteAssetUrl(activity.heroSrc) };
+}
+
+function gameContextLine(game: GameRow): string {
+  const gameDef = findGame(game.game_slug);
+  const activity = findActivity(game.game_slug, game.activity_slug);
+  return `**${gameDef?.name ?? game.game_slug}** · ${activity?.name ?? game.activity_slug}`;
+}
+
+/** Notes + game/activity line for embed description (Discord markdown). */
+function embedDescription(
+  game: GameRow,
+  options?: { lead?: string; includeNotes?: boolean },
+): string {
+  const parts: string[] = [];
+  if (options?.lead) {
+    parts.push(options.lead);
+  }
+  parts.push(gameContextLine(game));
+  if (options?.includeNotes !== false && game.description?.trim()) {
+    parts.push("");
+    parts.push(truncate(game.description.trim(), NOTES_MAX));
+  }
+  return truncate(parts.join("\n"), EMBED_DESCRIPTION_MAX);
+}
+
+function withHeroImage(embed: DiscordEmbed, game: GameRow): DiscordEmbed {
+  const image = heroImageForGame(game);
+  return image ? { ...embed, image } : embed;
+}
 
 function webhookUrl(channel: "announcements" | "reminders"): string | undefined {
   if (channel === "announcements") {
@@ -68,8 +127,7 @@ export async function dispatchGameWebhook(
     return;
   }
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-  const gameUrl = `${siteUrl}/games/${game.id}`;
+  const gameUrl = `${siteBaseUrl()}/games/${game.id}`;
 
   const { data: existing } = await admin
     .from("webhook_log")
@@ -103,62 +161,91 @@ export async function dispatchGameWebhook(
 
   switch (event) {
     case "game.created":
-      embed = {
-        title: `New run: ${game.title}`,
-        url: gameUrl,
-        color: colour,
-        description: `${gameDef?.name ?? game.game_slug} · ${activity?.name ?? game.activity_slug}`,
-        fields: [
-          { name: "Host", value: host.handle ? `@${host.handle}` : host.display_name },
-          {
-            name: "Starts",
-            value: discordTimestamp(game.starts_at),
-          },
-          {
-            name: "Slots",
-            value: `${extra?.openSlots ?? game.max_players} open`,
-            inline: true,
-          },
-        ],
-        footer: { text: "Direct Action Games" },
-        timestamp: new Date().toISOString(),
-      };
+      embed = withHeroImage(
+        {
+          title: `New run: ${game.title}`,
+          url: gameUrl,
+          color: colour,
+          description: embedDescription(game),
+          fields: [
+            {
+              name: "Host",
+              value: host.handle ? `@${host.handle}` : host.display_name,
+            },
+            {
+              name: "Starts",
+              value: discordTimestamp(game.starts_at),
+            },
+            {
+              name: "Slots",
+              value: `${extra?.openSlots ?? game.max_players} open`,
+              inline: true,
+            },
+          ],
+          footer: { text: "Direct Action Games" },
+          timestamp: new Date().toISOString(),
+        },
+        game,
+      );
       break;
     case "game.full":
-      embed = {
-        title: "Crew assembled",
-        url: gameUrl,
-        color: colour,
-        description: `${game.title} is full.`,
-        fields: [
-          { name: "Game", value: gameDef?.name ?? game.game_slug },
-          { name: "Starts", value: discordTimestamp(game.starts_at) },
-        ],
-        footer: { text: "Direct Action Games" },
-      };
+      embed = withHeroImage(
+        {
+          title: "Crew assembled",
+          url: gameUrl,
+          color: colour,
+          description: embedDescription(game, {
+            lead: `**${game.title}** is full.`,
+          }),
+          fields: [
+            { name: "Starts", value: discordTimestamp(game.starts_at) },
+            {
+              name: "Host",
+              value: host.handle ? `@${host.handle}` : host.display_name,
+              inline: true,
+            },
+          ],
+          footer: { text: "Direct Action Games" },
+        },
+        game,
+      );
       break;
-    case "game.cancelled":
-      embed = {
-        title: "Run cancelled",
-        url: gameUrl,
-        color: COLOURS.muted,
-        description: game.cancelled_reason ?? game.title,
-        fields: [{ name: "Game", value: game.title }],
-        footer: { text: "Direct Action Games" },
-      };
+    case "game.cancelled": {
+      const reason = game.cancelled_reason?.trim();
+      embed = withHeroImage(
+        {
+          title: "Run cancelled",
+          url: gameUrl,
+          color: COLOURS.muted,
+          description: embedDescription(game, {
+            lead: reason ? `**Reason:** ${reason}` : undefined,
+          }),
+          fields: [{ name: "Session", value: game.title }],
+          footer: { text: "Direct Action Games" },
+        },
+        game,
+      );
       break;
+    }
     case "game.starting":
-      embed = {
-        title: "Starting soon",
-        url: gameUrl,
-        color: colour,
-        description: game.title,
-        fields: [
-          { name: "Starts", value: discordTimestamp(game.starts_at) },
-          { name: "Host", value: host.display_name },
-        ],
-        footer: { text: "Direct Action Games · reminders" },
-      };
+      embed = withHeroImage(
+        {
+          title: `Starting soon · ${game.title}`,
+          url: gameUrl,
+          color: colour,
+          description: embedDescription(game),
+          fields: [
+            { name: "Starts", value: discordTimestamp(game.starts_at) },
+            {
+              name: "Host",
+              value: host.handle ? `@${host.handle}` : host.display_name,
+              inline: true,
+            },
+          ],
+          footer: { text: "Direct Action Games · reminders" },
+        },
+        game,
+      );
       break;
     default:
       return;
