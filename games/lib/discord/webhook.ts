@@ -113,8 +113,38 @@ const ONE_SHOT_WEBHOOK_EVENTS: WebhookEvent[] = [
   "game.created",
   "game.full",
   "game.cancelled",
-  "game.starting",
+  "game.reminder_60m",
+  "game.reminder_30m",
 ];
+
+const REMINDER_EVENTS: WebhookEvent[] = [
+  "game.reminder_60m",
+  "game.reminder_30m",
+];
+
+function isReminderEvent(event: WebhookEvent): boolean {
+  return REMINDER_EVENTS.includes(event);
+}
+
+function reminderCopy(event: WebhookEvent): {
+  lead: string;
+  titleSuffix: string;
+} {
+  switch (event) {
+    case "game.reminder_60m":
+      return {
+        lead: "Starts in about **1 hour**.",
+        titleSuffix: "1 hour",
+      };
+    case "game.reminder_30m":
+      return {
+        lead: "Starts in about **30 minutes**.",
+        titleSuffix: "30 minutes",
+      };
+    default:
+      return { lead: "Starting soon.", titleSuffix: "soon" };
+  }
+}
 
 function slotsLabel(open: number): string {
   if (open <= 0) {
@@ -301,13 +331,15 @@ export async function dispatchGameWebhook(
       );
       break;
     }
-    case "game.starting":
+    case "game.reminder_60m":
+    case "game.reminder_30m": {
+      const { lead, titleSuffix } = reminderCopy(event);
       embed = withHeroImage(
         {
-          title: `Starting soon · ${game.title}`,
+          title: `Starting in ${titleSuffix} · ${game.title}`,
           url: gameUrl,
           color: colour,
-          description: embedDescription(game),
+          description: embedDescription(game, { lead }),
           fields: [
             { name: "Starts", value: discordTimestamp(game.starts_at) },
             {
@@ -321,12 +353,12 @@ export async function dispatchGameWebhook(
         game,
       );
       break;
+    }
     default:
       return;
   }
 
-  const channel =
-    event === "game.starting" ? "reminders" : "announcements";
+  const channel = isReminderEvent(event) ? "reminders" : "announcements";
   const result = await postDiscord(channel, embed);
 
   await admin

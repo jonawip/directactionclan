@@ -58,6 +58,8 @@ Create webhooks under Discord server → Integrations → Webhooks. Paste URLs i
 
 Announcements embed the activity hero image and session notes (when provided). Images must be reachable at your public `NEXT_PUBLIC_SITE_URL` (Discord cannot load `localhost`).
 
+**Reminders channel** (`DISCORD_WEBHOOK_REMINDERS`): optional separate webhook. The `/api/cron/starting-soon` job (every 5 minutes) posts once per game at **60 minutes** and **30 minutes** before `starts_at` for open/full sessions. Each reminder is deduped in `webhook_log` so it only fires once per game per offset.
+
 ## Smart rules (server-enforced)
 
 1. Start time: now + 15 minutes … now + 30 days  
@@ -76,7 +78,7 @@ Announcements embed the activity hero image and session notes (when provided). I
 - Framework: Next.js
 - Node 22
 - Custom domain: `games.directaction.monster` → CNAME `cname.vercel-dns.com`
-- Cron: `vercel.json` runs `/api/cron/starting-soon` every 5 minutes and `/api/cron/mark-completed` daily at 03:00 UTC
+- Cron: `vercel.json` runs `/api/cron/starting-soon` every 5 minutes (60m + 30m Discord reminders) and `/api/cron/mark-completed` daily at 03:00 UTC
 
 ## API
 
