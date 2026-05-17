@@ -287,13 +287,27 @@ body::before {
 }
 
 .filter-panel {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
   padding: var(--space-lg);
   margin-bottom: var(--space-xl);
   border-radius: var(--radius-lg);
+  overflow-x: clip;
+}
+
+.filter-panel > div {
+  min-width: 0;
+  max-width: 100%;
 }
 
 .filter-panel > div + div {
   margin-top: var(--space-lg);
+}
+
+.filter-legend {
+  padding: 0 var(--space-xs);
+  max-width: 100%;
 }
 
 .filter-group-label {
@@ -304,13 +318,26 @@ body::before {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-sm);
-  margin-top: var(--space-lg);
+  margin-top: var(--space-md);
+  max-width: 100%;
+  min-width: 0;
+}
+
+.filter-actions .btn {
+  max-width: 100%;
+  min-width: 0;
+}
+
+.filter-game-btn {
+  min-width: 0;
 }
 
 .filter-checks {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-lg);
+  max-width: 100%;
+  min-width: 0;
 }
 
 .btn {
@@ -653,6 +680,10 @@ body::before {
 .form-field input,
 .form-field select,
 .form-field textarea {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   background: var(--bg-3);
   border: 1px solid var(--line);
   border-radius: var(--radius-sm);
@@ -776,10 +807,15 @@ body::before {
   gap: var(--space-md);
   align-items: flex-end;
   margin-top: var(--space-md);
+  max-width: 100%;
+  min-width: 0;
 }
 
 .filter-date-row .form-field {
-  min-width: 10rem;
+  flex: 1 1 9rem;
+  min-width: 0;
+  max-width: 100%;
+  margin-bottom: 0;
 }
 
 .member-rank--compact {
@@ -1118,16 +1154,26 @@ body::before {
   }
 
   .filter-actions {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: var(--space-xs);
-    scrollbar-width: thin;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-sm);
+  }
+
+  .filter-actions > :first-child {
+    grid-column: 1 / -1;
   }
 
   .filter-actions .btn {
-    flex-shrink: 0;
+    width: 100%;
+    justify-content: center;
+    padding-inline: var(--space-sm);
+  }
+
+  .filter-game-btn .game-name-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
   }
 
   .filter-date-row {
@@ -1136,12 +1182,19 @@ body::before {
   }
 
   .filter-date-row .form-field {
-    min-width: 0;
+    flex: none;
     width: 100%;
   }
 
   .filter-date-row > .btn {
-    align-self: flex-start;
+    align-self: stretch;
+    width: 100%;
+  }
+
+  .filter-checks {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-sm);
   }
 
   .form-field input,

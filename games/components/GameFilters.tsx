@@ -110,7 +110,7 @@ export function GameFilters({ isAuthed }: { isAuthed: boolean }) {
 
   return (
     <fieldset className="filter-panel border border-[var(--line)]" disabled={pending}>
-      <legend className="font-label text-lg px-2 text-[var(--fg-dim)]">
+      <legend className="filter-legend font-label text-lg text-[var(--fg-dim)]">
         {uiCopy.filters.legend}
       </legend>
       <div>
@@ -251,7 +251,7 @@ function GameFilterButtons({
         <button
           key={g.slug}
           type="button"
-          className={`btn text-xs ${selectedGames.includes(g.slug) ? "btn-primary" : ""}`}
+          className={`filter-game-btn btn text-xs ${selectedGames.includes(g.slug) ? "btn-primary" : ""}`}
           onClick={() => onToggleGame(g.slug)}
           aria-pressed={selectedGames.includes(g.slug)}
         >
@@ -259,6 +259,7 @@ function GameFilterButtons({
             gameSlug={g.slug}
             size={16}
             iconTone={selectedGames.includes(g.slug) ? "contrast" : "accent"}
+            labelClassName="game-name-label"
           />
         </button>
       ))}

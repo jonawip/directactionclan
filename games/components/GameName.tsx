@@ -6,6 +6,7 @@ type Props = {
   iconOnly?: boolean;
   size?: number;
   className?: string;
+  labelClassName?: string;
   iconTone?: "accent" | "contrast";
 };
 
@@ -14,6 +15,7 @@ export function GameName({
   iconOnly = false,
   size = 20,
   className = "",
+  labelClassName = "",
   iconTone = "accent",
 }: Props) {
   const game = findGame(gameSlug);
@@ -22,14 +24,18 @@ export function GameName({
   }
 
   return (
-    <span className={`inline-flex items-center gap-2 ${className}`.trim()}>
+    <span
+      className={`inline-flex min-w-0 max-w-full items-center gap-2 ${className}`.trim()}
+    >
       <GameIcon
         src={game.iconSrc}
         accent={game.accent}
         size={size}
         tone={iconTone}
       />
-      {!iconOnly && <span>{game.name}</span>}
+      {!iconOnly && (
+        <span className={`min-w-0 ${labelClassName}`.trim()}>{game.name}</span>
+      )}
     </span>
   );
 }
