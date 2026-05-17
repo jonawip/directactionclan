@@ -1,0 +1,1 @@
+-- Applied via Supabase MCP. See directaction-games-cursor-prompt.md for full schema.
