@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Jost } from "next/font/google";
 import { Nav } from "@/components/Nav";
+import { SessionKeeper } from "@/components/SessionKeeper";
 import "./globals.css";
 
 const futura = Jost({
@@ -25,6 +26,7 @@ export default function RootLayout({
   return (
     <html lang="en-GB" suppressHydrationWarning>
       <body className={`${futura.variable} font-body`} suppressHydrationWarning>
+        <SessionKeeper />
         <a href="#main" className="skip-link">
           Skip to content
         </a>

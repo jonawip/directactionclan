@@ -33,6 +33,12 @@ Add to **Authentication → URL Configuration**:
 - `http://localhost:3000/auth/callback`
 - `https://games.directaction.monster/auth/callback` (or your production host)
 
+## Staying signed in
+
+Sessions use HTTP-only cookies (default **30 days**). Middleware refreshes the access token on each visit; `SessionKeeper` refreshes when you return to the tab.
+
+In **Supabase → Authentication → Sessions**, set **refresh token lifetime** to at least **30 days** (or match `SESSION_COOKIE_MAX_AGE` in Vercel). If the dashboard lifetime is shorter than the cookie, users will still be signed out when the refresh token expires.
+
 Discord OAuth redirect for the Discord app:
 
 - `https://<project-ref>.supabase.co/auth/v1/callback`
