@@ -2,7 +2,8 @@ import { getAdminClient } from "@/lib/supabase/admin";
 import { discordTimestamp } from "@/lib/time/format";
 import { findActivity, findGame } from "@/lib/games/catalogue";
 import type { GameRow, ProfileRow, WebhookEvent } from "@/types/domain";
-import type { Json } from "@/types/db";
+import type { Database, Json } from "@/types/db";
+import type { SupabaseClient } from "@supabase/supabase-js";
 
 export type DiscordEmbed = {
   title: string;
@@ -87,19 +88,62 @@ function webhookUrl(channel: "announcements" | "reminders"): string | undefined 
   return process.env.DISCORD_WEBHOOK_REMINDERS;
 }
 
+const DISCORD_SNOWFLAKE = /^\d{17,20}$/;
+
+function mentionContent(userIds: string[]): string | undefined {
+  if (userIds.length === 0) {
+    return undefined;
+  }
+  return userIds.map((id) => `<@${id}>`).join(" ");
+}
+
+/** Discord user IDs for current RSVPs who signed in with Discord (skips Google-only). */
+async function fetchDiscordIdsForGame(
+  admin: SupabaseClient<Database>,
+  gameId: string,
+): Promise<string[]> {
+  const { data, error } = await admin.rpc("discord_ids_for_game", {
+    p_game_id: gameId,
+  });
+
+  if (error) {
+    if (process.env.NODE_ENV === "development") {
+      console.warn("[webhook] discord_ids_for_game:", error.message);
+    }
+    return [];
+  }
+
+  const ids = (data as string[] | null) ?? [];
+  return ids.filter((id) => DISCORD_SNOWFLAKE.test(id));
+}
+
 export async function postDiscord(
   channel: "announcements" | "reminders",
   embed: DiscordEmbed,
+  options?: { mentionUserIds?: string[] },
 ): Promise<{ ok: boolean; error?: string }> {
   const url = webhookUrl(channel);
   if (!url) {
     return { ok: false, error: "Webhook URL not configured" };
   }
 
+  const mentionUserIds = options?.mentionUserIds ?? [];
+  const content = mentionContent(mentionUserIds);
+  const body: {
+    embeds: DiscordEmbed[];
+    content?: string;
+    allowed_mentions?: { parse: []; users: string[] };
+  } = { embeds: [embed] };
+
+  if (content) {
+    body.content = content;
+    body.allowed_mentions = { parse: [], users: mentionUserIds };
+  }
+
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ embeds: [embed] }),
+    body: JSON.stringify(body),
   });
 
   if (!res.ok) {
@@ -388,7 +432,8 @@ export async function dispatchGameWebhook(
   }
 
   const channel = isReminderEvent(event) ? "reminders" : "announcements";
-  const result = await postDiscord(channel, embed);
+  const mentionUserIds = await fetchDiscordIdsForGame(admin, game.id);
+  const result = await postDiscord(channel, embed, { mentionUserIds });
 
   await admin
     .from("webhook_log")

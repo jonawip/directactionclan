@@ -177,7 +177,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      discord_ids_for_game: {
+        Args: { p_game_id: string }
+        Returns: string[]
+      }
     }
     Enums: {
       [_ in never]: never
