@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   formatGameTime,
+  formatGameTimeStable,
   type FormattedGameTime,
 } from "@/lib/time/format";
 
@@ -13,37 +14,36 @@ type Props = {
   variant?: "stacked" | "inline";
 };
 
-function formatSafe(iso: string, timezone: string): FormattedGameTime {
-  return formatGameTime(iso, timezone);
-}
-
 export function LocalTime({
   iso,
   timezone,
   className,
   variant = "stacked",
 }: Props) {
-  const [formatted, setFormatted] = useState(() =>
-    formatSafe(iso, timezone),
+  const stable = useMemo(
+    () => formatGameTimeStable(iso, timezone),
+    [iso, timezone],
   );
+  const [formatted, setFormatted] = useState<FormattedGameTime | null>(null);
 
   useEffect(() => {
-    setFormatted(formatSafe(iso, timezone));
+    setFormatted(formatGameTime(iso, timezone));
   }, [iso, timezone]);
+
+  const label = formatted?.label ?? stable.label;
+  const relative = formatted?.relative ?? "";
 
   if (variant === "inline") {
     return (
-      <time dateTime={iso} className={className} suppressHydrationWarning>
-        <span>{formatted.label}</span>
-        {formatted.relative ? (
+      <time dateTime={iso} className={className}>
+        <span>{label}</span>
+        {relative ? (
           <>
             <span className="text-[var(--fg-faint)]" aria-hidden>
               {" "}
               ·{" "}
             </span>
-            <span className="text-[var(--fg-dim)] text-[0.9em]">
-              {formatted.relative}
-            </span>
+            <span className="text-[var(--fg-dim)] text-[0.9em]">{relative}</span>
           </>
         ) : null}
       </time>
@@ -51,10 +51,10 @@ export function LocalTime({
   }
 
   return (
-    <time dateTime={iso} className={className} suppressHydrationWarning>
-      <span className="block">{formatted.label}</span>
-      {formatted.relative ? (
-        <span className="text-[var(--fg-dim)] text-xs">{formatted.relative}</span>
+    <time dateTime={iso} className={className}>
+      <span className="block">{label}</span>
+      {relative ? (
+        <span className="text-[var(--fg-dim)] text-xs">{relative}</span>
       ) : null}
     </time>
   );

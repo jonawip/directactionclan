@@ -19,6 +19,25 @@ function parseGameDate(iso: string): Date | null {
   return isValid(date) ? date : null;
 }
 
+/** Stable label for SSR and first paint — no “today”/relative wording that depends on `now`. */
+export function formatGameTimeStable(
+  iso: string,
+  timezone: string,
+): Pick<FormattedGameTime, "label"> {
+  const date = parseGameDate(iso);
+  if (!date) {
+    return { label: "Time not set" };
+  }
+
+  try {
+    return {
+      label: formatInTimeZone(date, timezone, "EEE d MMM yyyy, HH:mm zzz"),
+    };
+  } catch {
+    return { label: "Time not set" };
+  }
+}
+
 export function formatGameTime(
   iso: string,
   timezone: string,

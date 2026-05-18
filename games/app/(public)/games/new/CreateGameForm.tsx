@@ -21,6 +21,9 @@ export function CreateGameForm({ timezone }: { timezone: string }) {
   const activity = game?.activities[0];
   const [activitySlug, setActivitySlug] = useState(activity?.slug ?? "");
   const [maxPlayers, setMaxPlayers] = useState(activity?.defaultMaxPlayers ?? 3);
+  const [durationMinutes, setDurationMinutes] = useState(
+    DEFAULT_DURATION_MINUTES,
+  );
 
   const selectedActivity = useMemo(
     () => game?.activities.find((a) => a.slug === activitySlug),
@@ -169,10 +172,7 @@ export function CreateGameForm({ timezone }: { timezone: string }) {
         <summary>
           {uiCopy.postGame.moreOptions}
           <span className="advanced-panel-hint">
-            {uiCopy.postGame.moreOptionsHint(
-              DEFAULT_DURATION_MINUTES,
-              maxPlayers,
-            )}
+            {uiCopy.postGame.moreOptionsHint(durationMinutes, maxPlayers)}
           </span>
         </summary>
         <div className="advanced-panel-body">
@@ -184,7 +184,8 @@ export function CreateGameForm({ timezone }: { timezone: string }) {
               type="number"
               min={15}
               max={480}
-              defaultValue={DEFAULT_DURATION_MINUTES}
+              value={durationMinutes}
+              onChange={(e) => setDurationMinutes(Number(e.target.value))}
               required
             />
           </div>
