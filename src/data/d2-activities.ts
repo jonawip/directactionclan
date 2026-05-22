@@ -1,4 +1,4 @@
-/** Activity slugs for games.directaction.monster — keep in sync with games/lib/games/catalogue.ts */
+/** Activity slugs for games.directaction.monster. Keep in sync with games/lib/games/catalogue.ts */
 export const D2_ACTIVITY_SLUGS = [
   'd2-raid',
   'd2-dungeon',

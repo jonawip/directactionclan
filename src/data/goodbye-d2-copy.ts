@@ -10,7 +10,7 @@ export const goodbyeD2Copy = {
     'Active development ends 9 June 2026 with Monument of Triumph. Get the fireteam back together.',
   sections: {
     finalOp: { code: '01', label: 'Final op', title: 'One last', titleAccent: 'fireteam.' },
-    week: { code: '02', label: 'The week', title: 'Seven days.', titleAccent: 'Two tracks.' },
+    week: { code: '02', label: 'The week', title: 'Seven days.', titleAccent: 'last runs.' },
     wire: { code: '03', label: 'Live feed', title: 'On the', titleAccent: 'wire.' },
     rotation: { code: '04', label: 'Also playing', title: "What's", titleAccent: 'next.' }
   },
@@ -37,14 +37,14 @@ export const goodbyeD2Copy = {
   },
   week: {
     code: '// THE WEEK',
-    intro: 'Seven days. Raids, dungeons, Pantheon 2.0, and Monument of Triumph — one last fireteam.',
+    intro: 'Seven days. Raids, dungeons, Pantheon 2.0, and Monument of Triumph. One last fireteam.',
     boardLine: 'Sessions live on games.directaction.monster. Post one, claim a slot, or just turn up.',
     rituals: {
       title: 'Raids',
       tag: 'Six-player. Put the raid name in your session title.',
       items: [
         {
-          text: "The Desert Perpetual — Edge of Fate's raid (2025)",
+          text: "The Desert Perpetual (Edge of Fate raid, 2025)",
           icon: 'raid' as const
         },
         {
@@ -62,15 +62,15 @@ export const goodbyeD2Copy = {
       tag: 'Three-player unless noted. Monument of Triumph lands 9 June.',
       items: [
         {
-          text: 'Dungeons — Sundered Doctrine, Equilibrium, Vesper\'s Host, Warlord\'s Ruin',
+          text: 'Dungeons: Sundered Doctrine, Equilibrium, Vesper\'s Host, Warlord\'s Ruin',
           icon: 'engram' as const
         },
         {
-          text: 'Pantheon 2.0 — boss slates from 9 June; full gauntlet from 13 June',
+          text: 'Pantheon 2.0: boss slates from 9 June; full gauntlet from 13 June',
           icon: 'raid' as const
         },
         {
-          text: 'Monument week — Sparrow Racing League, Solstice, Legendary Marks, revamped Director',
+          text: 'Monument week: Sparrow Racing League, Solstice, Legendary Marks, revamped Director',
           icon: 'damageSolar' as const
         }
       ] as const

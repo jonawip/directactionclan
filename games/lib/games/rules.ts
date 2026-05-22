@@ -55,7 +55,7 @@ export function canJoinGame(game: GameRow, now = new Date()): string | null {
   const startsAt = new Date(game.starts_at);
   const cutoff = addMinutes(startsAt, -RSVP_CUTOFF_MINUTES);
   if (isAfter(now, cutoff)) {
-    return "RSVP closed — less than 5 minutes until start.";
+    return "RSVP closed: less than 5 minutes until start.";
   }
   return null;
 }

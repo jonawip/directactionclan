@@ -53,7 +53,7 @@ export const GAMES: GameDefinition[] = [
         defaultMaxPlayers: 6,
         heroSrc: d2HeroForActivity("d2-raid")!,
         description:
-          "Six-player. Name the raid in the title — e.g. The Desert Perpetual, Salvation's Edge, King's Fall, Vault of Glass, Last Wish.",
+          "Six-player. Name the raid in the title (e.g. The Desert Perpetual, Salvation's Edge, King's Fall, Vault of Glass, Last Wish).",
       },
       {
         slug: "d2-dungeon",
@@ -77,7 +77,7 @@ export const GAMES: GameDefinition[] = [
         defaultMaxPlayers: 3,
         heroSrc: d2HeroForActivity("d2-monument")!,
         description:
-          "Monument of Triumph week — Sparrow Racing League, Solstice, Legendary Marks, Director tour, or other launch activities.",
+          "Monument of Triumph week: Sparrow Racing League, Solstice, Legendary Marks, Director tour, or other launch activities.",
       },
     ],
   },

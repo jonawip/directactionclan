@@ -20,10 +20,10 @@ const { week } = goodbyeD2Copy;
 const postUrl = `${GAMES_SITE_URL}/games/new`;
 const boardUrl = GAMES_SITE_URL;
 ---
-<section class="d2-week" id="the-week" aria-labelledby="the-week-title">
+<section class="d2-week" aria-labelledby="the-week-title">
   <header class="d2-week-header">
     <p class="d2-week-code">{week.code}</p>
-    <p class="d2-week-intro">{week.intro}</p>
+    <p class="d2-week-summary">{week.intro}</p>
     <p class="d2-week-dates">
       <time datetime={getGoodbyeD2RangeDatetime()}>{getGoodbyeD2RangeLabel()}</time>
     </p>
@@ -36,9 +36,11 @@ const boardUrl = GAMES_SITE_URL;
       <ul class="d2-track-list">
         {
           week.rituals.items.map((item) => (
-            <li>
-              <D2Icon src={d2Icons[item.icon]} size={28} />
-              <span>{item.text}</span>
+            <li class="d2-track-item">
+              <span class="d2-track-icon" aria-hidden="true">
+                <D2Icon src={d2Icons[item.icon]} size={28} />
+              </span>
+              <span class="d2-track-text">{item.text}</span>
             </li>
           ))
         }
@@ -50,9 +52,11 @@ const boardUrl = GAMES_SITE_URL;
       <ul class="d2-track-list">
         {
           week.sendoff.items.map((item) => (
-            <li>
-              <D2Icon src={d2Icons[item.icon]} size={28} />
-              <span>{item.text}</span>
+            <li class="d2-track-item">
+              <span class="d2-track-icon" aria-hidden="true">
+                <D2Icon src={d2Icons[item.icon]} size={28} />
+              </span>
+              <span class="d2-track-text">{item.text}</span>
             </li>
           ))
         }

@@ -112,7 +112,7 @@ export const uiCopy = {
   leaderboard: {
     title: "Hall of chronically online",
     metaDescription:
-      "Direct Action Games leaderboards — most sessions joined and posted.",
+      "Direct Action Games leaderboards: most sessions joined and posted.",
     subtitle:
       "Official ranks plus completely unserious titles. Cancelled games do not count. Touch grass optional.",
     joinedHeading: "Most sessions joined",
