@@ -2,6 +2,11 @@
 
 :root {
   --header-h: calc(74px + env(safe-area-inset-top, 0px));
+  --d2-gutter: 32px;
+}
+
+.d2-takeover {
+  overflow-x: clip;
 }
 
 /* Hero */
@@ -420,33 +425,47 @@
 
 /* —— Mobile (Goodbye D2 takeover) —— */
 @media (max-width: 767px) {
+  :root {
+    --d2-gutter: 24px;
+  }
+
+  .d2-takeover .wrap {
+    padding-left: max(var(--d2-gutter), env(safe-area-inset-left, 0px));
+    padding-right: max(var(--d2-gutter), env(safe-area-inset-right, 0px));
+  }
+
   .hero-d2-media {
-    height: min(68svh, 520px);
-    min-height: 260px;
+    height: calc(100svh - var(--header-h));
+    height: calc(100dvh - var(--header-h));
+    min-height: 320px;
   }
 
   .hero-d2-img {
-    object-position: center 18%;
+    object-position: center 22%;
   }
 
   .hero-d2-stamp {
     top: max(12px, env(safe-area-inset-top, 0px));
-    left: 12px;
+    left: max(var(--d2-gutter), env(safe-area-inset-left, 0px));
     font-size: 9px;
     padding: 5px 8px;
   }
 
   .hero-d2-unit {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-    padding: 10px 16px max(10px, env(safe-area-inset-bottom, 0px));
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    padding: 10px max(var(--d2-gutter), env(safe-area-inset-right, 0px))
+      max(10px, env(safe-area-inset-bottom, 0px))
+      max(var(--d2-gutter), env(safe-area-inset-left, 0px));
     font-size: 9px;
     letter-spacing: 0.12em;
   }
 
   .hero-d2-lead {
-    padding: 22px 0 28px;
+    padding-top: 24px;
+    padding-bottom: 32px;
     gap: 20px;
   }
 
@@ -457,18 +476,26 @@
 
   .hero-d2-lead-actions {
     width: 100%;
+    max-width: 100%;
     flex-direction: column;
     align-items: stretch;
     gap: 10px;
+    box-sizing: border-box;
   }
 
   .hero-d2-lead-actions .cta-primary,
   .hero-d2-lead-actions .cta-secondary {
+    box-sizing: border-box;
     width: 100%;
+    max-width: 100%;
     justify-content: center;
     min-height: 48px;
     padding: 14px 20px;
     white-space: normal;
+  }
+
+  .hero-d2-lead-actions .cta-primary::before {
+    inset: 0;
   }
 
   .d2-takeover .section {
@@ -630,9 +657,14 @@
 }
 
 @media (max-width: 480px) {
-  .hero-d2-media {
-    height: min(62svh, 440px);
-    min-height: 220px;
+  :root {
+    --d2-gutter: 20px;
+  }
+
+  .hero-d2-unit {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
   }
 
   .hero-d2-unit span:last-child {
