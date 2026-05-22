@@ -2269,7 +2269,7 @@ footer {
     display: none;
   }
 
-  .shells {
+  .shells:not(.shells--three) {
     grid-template-columns: repeat(2, 1fr);
   }
 }
