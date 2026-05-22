@@ -25,6 +25,7 @@ import { goodbyeD2TransmissionLines } from '../data/goodbye-d2-transmission.ts';
 import { isGoodbyeD2Active } from '../lib/goodbye-d2.ts';
 import { fetchD2WeekSessions } from '../lib/d2-week-games.ts';
 import '../styles/goodbye-d2.css';
+import { CLAN_SITE_URL } from '../constants.ts';
 
 const goodbyeD2 = isGoodbyeD2Active();
 
@@ -37,7 +38,7 @@ const rotationItems = rotationData.games.map((g, i) => ({
 
 const d2Sessions = goodbyeD2 ? await fetchD2WeekSessions() : [];
 
-const siteHref = Astro.site?.href ?? 'https://directactionclan.com/';
+const siteHref = Astro.site?.href ?? `${CLAN_SITE_URL}/`;
 
 const marathonTitle = 'Direct Action Clan | Leftist Marathon Discord Community';
 const marathonDescription =

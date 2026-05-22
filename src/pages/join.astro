@@ -5,7 +5,7 @@ import Footer from '../components/Footer.astro';
 import SectionLabel from '../components/SectionLabel.astro';
 import SectionTitle from '../components/SectionTitle.astro';
 import DoctrineRow from '../components/DoctrineRow.astro';
-import { DISCORD_INVITE } from '../constants.ts';
+import { CLAN_SITE_URL, DISCORD_INVITE } from '../constants.ts';
 import doctrineData from '../data/doctrine.json';
 
 const summary = doctrineData.tenets.slice(0, 4);
@@ -31,7 +31,7 @@ const steps = [
     body: 'Check pings or ask who is on. New players get a hand; regulars fold you in.'
   }
 ] as const;
-const siteHref = Astro.site?.href ?? 'https://directactionclan.com/';
+const siteHref = Astro.site?.href ?? `${CLAN_SITE_URL}/`;
 const joinFaqs = [
   {
     question: 'What is Direct Action Clan?',

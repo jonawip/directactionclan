@@ -5,8 +5,9 @@ import Footer from '../components/Footer.astro';
 import SectionLabel from '../components/SectionLabel.astro';
 import SectionTitle from '../components/SectionTitle.astro';
 import DoctrineRow from '../components/DoctrineRow.astro';
+import { CLAN_SITE_URL } from '../constants.ts';
 import doctrineData from '../data/doctrine.json';
-const siteHref = Astro.site?.href ?? 'https://directactionclan.com/';
+const siteHref = Astro.site?.href ?? `${CLAN_SITE_URL}/`;
 const doctrineSchema = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',

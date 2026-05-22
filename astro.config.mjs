@@ -6,7 +6,7 @@ import vercel from '@astrojs/vercel';
 
 // https://astro.build/config
 export default defineConfig({
-  site: process.env.SITE_URL ?? 'https://directactionclan.com',
+  site: process.env.SITE_URL ?? 'https://directaction.monster',
   output: 'static',
   integrations: [sitemap()],
   adapter: vercel()
