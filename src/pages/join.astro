@@ -13,26 +13,22 @@ const steps = [
   {
     sym: '01',
     title: 'Hop in',
-    body: 'One link, straight in. Say hello when you feel like it.',
-    artSrc: '/join-steps/1.svg'
+    body: 'One link, straight in. Say hello when you feel like it.'
   },
   {
     sym: '02',
     title: 'Look around',
-    body: 'Skim the channels. Introduce yourself if you want — totally optional.',
-    artSrc: '/join-steps/2.svg'
+    body: 'Skim the channels. Introduce yourself if you want — totally optional.'
   },
   {
     sym: '03',
-    title: 'Mic',
-    body: 'Most games need a mic. Push-to-talk helps. Mic off today? Say so in text.',
-    artSrc: '/join-steps/3.svg'
+    title: 'Mic up',
+    body: 'Most games need a mic. Push-to-talk helps. Mic off today? Say so in text.'
   },
   {
     sym: '04',
     title: 'Play',
-    body: 'Check pings or ask who is on. New players get a hand; regulars fold you in.',
-    artSrc: '/join-steps/4.svg'
+    body: 'Check pings or ask who is on. New players get a hand; regulars fold you in.'
   }
 ] as const;
 const siteHref = Astro.site?.href ?? 'https://directactionclan.com/';
@@ -114,32 +110,24 @@ const joinSchema = [
           Text chat gets busy; voice is calmer. People may ask what you play and where you are. <strong>Say what you want.</strong>
         </p>
 
-        <div class="join-steps">
+        <ol class="join-steps">
           {
             steps.map((s) => (
-              <article class="join-step">
-                <img
-                  class="join-step-art"
-                  src={s.artSrc}
-                  alt=""
-                  width="128"
-                  height="128"
-                  decoding="async"
-                />
-                <span class="step-num">Step // {s.sym}</span>
-                <h3>{s.title}</h3>
-                <p>{s.body}</p>
-              </article>
+              <li class="join-step">
+                <span class="join-step-mark" aria-hidden="true">{s.sym}</span>
+                <div class="join-step-body">
+                  <span class="step-num">Step // {s.sym}</span>
+                  <h3>{s.title}</h3>
+                  <p>{s.body}</p>
+                </div>
+              </li>
             ))
           }
-        </div>
+        </ol>
 
-        <div class="join-mic">
-          <h3>Voice</h3>
-          <p>
-            <strong>No fancy gear needed</strong> You just need clear audio and be willing to talk to people.
-          </p>
-        </div>
+        <p class="join-mic-note">
+          <strong>No fancy gear needed.</strong> Clear audio and a willingness to talk beats an expensive headset.
+        </p>
 
         <h2 class="join-section-title spaced">
           What we're about <span class="accent">(doctrine)</span>
@@ -147,19 +135,6 @@ const joinSchema = [
         <p class="doctrine-preamble">
           Longer read: <a href="/doctrine" class="link-acid">/doctrine</a>. If this feels right, you'll fit right in.
         </p>
-        <section class="join-faq" aria-labelledby="join-faq-title">
-          <h2 class="join-section-title" id="join-faq-title">
-            Join FAQ <span class="cyan">for new players.</span>
-          </h2>
-          {
-            joinFaqs.map((faq) => (
-              <article class="join-faq-item">
-                <h3>{faq.question}</h3>
-                <p>{faq.answer}</p>
-              </article>
-            ))
-          }
-        </section>
         <div class="doctrine-stack">
           {
             summary.map((t) => (
@@ -172,6 +147,19 @@ const joinSchema = [
             ))
           }
         </div>
+        <section class="join-faq" aria-labelledby="join-faq-title">
+          <h2 class="join-section-title" id="join-faq-title">
+            Quick answers
+          </h2>
+          {
+            joinFaqs.map((faq) => (
+              <article class="join-faq-item">
+                <h3>{faq.question}</h3>
+                <p>{faq.answer}</p>
+              </article>
+            ))
+          }
+        </section>
       </div>
     </section>
   </main>

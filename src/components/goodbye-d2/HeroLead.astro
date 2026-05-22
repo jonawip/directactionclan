@@ -1,0 +1,17 @@
+---
+import { DISCORD_INVITE } from '../../constants.ts';
+import { goodbyeD2Copy } from '../../data/goodbye-d2-copy.ts';
+---
+<div class="hero-d2-lead wrap">
+  <p class="hero-d2-lead-copy">{goodbyeD2Copy.heroLead}</p>
+  <div class="hero-d2-lead-actions">
+    <a href="#the-week" class="cta-primary">
+      See the week
+      <span class="arrow">→</span>
+    </a>
+    <a href={DISCORD_INVITE} class="cta-secondary" rel="noopener noreferrer">
+      Discord
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</div>

@@ -4,7 +4,7 @@
     "name": "Marathon",
     "tag": "Primary op",
     "tagVariant": "live",
-    "format": "PvPvE extraction",
+    "format": "Extraction",
     "publisher": "Bungie",
     "year": "2026",
     "schedule": "Most evenings, UK",
@@ -18,7 +18,7 @@
     {
       "name": "Arc Raiders",
       "tag": "Extraction",
-      "format": "PvPvE shooter",
+      "format": "Extraction shooter",
       "schedule": "Weekends, ad hoc",
       "who": "Loud, tense, fun",
       "platforms": "PC",
@@ -38,7 +38,7 @@
     {
       "name": "Destiny 2",
       "tag": "Looter shooter",
-      "format": "Co-op PvE (+ occasional PvP)",
+      "format": "Co-op PvE",
       "schedule": "Seasonal — see Discord",
       "who": "Guardians who still love the grind",
       "platforms": "PC // PlayStation // Xbox",

@@ -1,5 +1,11 @@
 ---
-const lines = [
+type TransmissionLine = readonly [string, string, string, boolean];
+
+interface Props {
+  lines?: readonly TransmissionLine[];
+}
+
+const marathonLines = [
   ['[20:14:02]', 'JOIN', 'runner_023 entered the lobby', false],
   ['[20:14:18]', 'EXFIL', 'squad_07 returned with 12kg salvage', false],
   ['[20:15:03]', 'DROP', 'three runners deploying to perimeter', false],
@@ -13,7 +19,10 @@ const lines = [
   ['[20:20:48]', 'DROP', 'duo deploying, rook ghost spotted', false],
   ['[20:21:30]', 'JOIN', 'new runner from glasgow, mic check passed', false],
   ['[20:22:17]', 'CALL', '"i love you all, even when you steal my loot"', false]
-] as const;
+] as const satisfies readonly TransmissionLine[];
+
+const { lines: linesProp } = Astro.props;
+const lines = linesProp ?? marathonLines;
 
 const doubled = [...lines, ...lines];
 ---

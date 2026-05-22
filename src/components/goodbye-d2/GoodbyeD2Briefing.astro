@@ -1,0 +1,69 @@
+---
+import Barcode from '../Barcode.astro';
+import D2Icon from './D2Icon.astro';
+import { goodbyeD2Copy } from '../../data/goodbye-d2-copy.ts';
+import { d2ClassIcon, d2Icons } from '../../lib/d2-assets.ts';
+
+const { about } = goodbyeD2Copy;
+---
+<div class="briefing briefing-d2">
+  <span class="corner tl"></span>
+  <span class="corner tr"></span>
+  <span class="corner bl"></span>
+  <span class="corner br"></span>
+
+  <div class="briefing-stamp">{about.stamp}</div>
+
+  <div class="briefing-left">
+    <div class="briefing-tag">{about.tag}</div>
+    <div class="briefing-game-row">
+      <img
+        class="briefing-d2-logo"
+        src={d2Icons.destiny2}
+        alt=""
+        width="72"
+        height="72"
+        decoding="async"
+      />
+      <div class="briefing-game">DESTINY 2</div>
+    </div>
+    <div class="briefing-tagline">
+      {about.tagline}
+      <Barcode />
+    </div>
+    <div class="briefing-data">
+      {
+        about.rows.map((row) => (
+          <div class="briefing-row">
+            <span class="label">{row.label}</span>
+            <span class="val">{row.value}</span>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="shells shells--three">
+      {
+        about.classes.map((c) => (
+          <div class="shell shell--class">
+            <span class="shell-glyph" aria-hidden="true">
+              <D2Icon src={d2ClassIcon[c.name]} size={56} />
+            </span>
+            <div class="shell-num">{c.num}</div>
+            <div class="shell-name">{c.name}</div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="briefing-right">
+    <div>
+      {about.body.map((p) => <p>{p}</p>)}
+    </div>
+    <div class="briefing-coords">
+      <span class="reg"><span class="reg-circle"></span></span>
+      &gt; {about.coords}
+    </div>
+  </div>
+</div>

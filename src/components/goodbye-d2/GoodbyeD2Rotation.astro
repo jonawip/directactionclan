@@ -1,0 +1,12 @@
+---
+import RotationItem from '../RotationItem.astro';
+import { goodbyeD2Copy } from '../../data/goodbye-d2-copy.ts';
+---
+<div class="rotation">
+  <div class="rotation-intro">
+    <p>{goodbyeD2Copy.rotation.intro}</p>
+  </div>
+  <div class="rotation-list">
+    {goodbyeD2Copy.rotation.games.map((item) => <RotationItem {...item} />)}
+  </div>
+</div>

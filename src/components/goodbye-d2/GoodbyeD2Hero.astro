@@ -1,0 +1,37 @@
+---
+import { GOODBYE_D2_HERO } from '../../lib/goodbye-d2.ts';
+
+const desktop = GOODBYE_D2_HERO.desktopBase;
+const mobile = GOODBYE_D2_HERO.mobileBase;
+---
+<section class="hero hero-d2" aria-label="Goodbye Destiny 2">
+  <div class="hero-d2-media">
+    <picture>
+      <source
+        type="image/webp"
+        media="(min-width: 768px)"
+        srcset={`${desktop}.webp 1x, ${desktop}@2x.webp 2x`}
+      />
+      <source
+        media="(min-width: 768px)"
+        srcset={`${desktop}.jpg 1x, ${desktop}@2x.jpg 2x`}
+      />
+      <source media="(max-width: 767px)" srcset={`${mobile}.png`} />
+      <img
+        class="hero-d2-img"
+        src={`${desktop}.jpg`}
+        alt={GOODBYE_D2_HERO.alt}
+        width="1920"
+        height="1080"
+        decoding="async"
+        fetchpriority="high"
+      />
+    </picture>
+    <span class="hero-d2-stamp" aria-hidden="true">// SUNSET</span>
+    <div class="hero-d2-unit" aria-hidden="true">
+      <span><span class="key">UNIT //</span> DA-D2-FINAL</span>
+      <span><span class="key">SECTOR //</span> THE LAST CITY</span>
+      <span><span class="key">STATUS //</span> ENDING</span>
+    </div>
+  </div>
+</section>

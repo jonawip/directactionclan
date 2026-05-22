@@ -1,0 +1,118 @@
+---
+import { GAMES_SITE_URL } from '../../constants.ts';
+import { goodbyeD2Copy } from '../../data/goodbye-d2-copy.ts';
+import { buildD2CalendarDays, formatSessionTimes } from '../../lib/d2-week-calendar.ts';
+import { d2Icons } from '../../lib/d2-assets.ts';
+import type { D2WeekSession } from '../../lib/d2-week-games.ts';
+import {
+  getGoodbyeD2RangeDatetime,
+  getGoodbyeD2RangeLabel
+} from '../../lib/goodbye-d2.ts';
+import D2Icon from './D2Icon.astro';
+
+interface Props {
+  sessions: D2WeekSession[];
+}
+
+const { sessions } = Astro.props;
+const days = buildD2CalendarDays(sessions);
+const { week } = goodbyeD2Copy;
+const postUrl = `${GAMES_SITE_URL}/games/new`;
+const boardUrl = GAMES_SITE_URL;
+---
+<section class="d2-week" id="the-week" aria-labelledby="the-week-title">
+  <header class="d2-week-header">
+    <p class="d2-week-code">{week.code}</p>
+    <p class="d2-week-intro">{week.intro}</p>
+    <p class="d2-week-dates">
+      <time datetime={getGoodbyeD2RangeDatetime()}>{getGoodbyeD2RangeLabel()}</time>
+    </p>
+  </header>
+
+  <div class="d2-week-tracks">
+    <article class="d2-track" aria-labelledby="rituals-heading">
+      <h3 id="rituals-heading" class="d2-track-heading">{week.rituals.title}</h3>
+      <p class="d2-track-tag">{week.rituals.tag}</p>
+      <ul class="d2-track-list">
+        {
+          week.rituals.items.map((item) => (
+            <li>
+              <D2Icon src={d2Icons[item.icon]} size={28} />
+              <span>{item.text}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </article>
+    <article class="d2-track" aria-labelledby="sendoff-heading">
+      <h3 id="sendoff-heading" class="d2-track-heading">{week.sendoff.title}</h3>
+      <p class="d2-track-tag">{week.sendoff.tag}</p>
+      <ul class="d2-track-list">
+        {
+          week.sendoff.items.map((item) => (
+            <li>
+              <D2Icon src={d2Icons[item.icon]} size={28} />
+              <span>{item.text}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </article>
+  </div>
+
+  <aside class="d2-week-callout">
+    <p>{week.boardLine}</p>
+    <a href={boardUrl} class="cta-primary">
+      Open the board
+      <span class="arrow">→</span>
+    </a>
+  </aside>
+
+  <div class="d2-week-grid" role="list" aria-label="Destiny 2 sessions by day">
+    {
+      days.map((day) => (
+        <section class="d2-day" role="listitem" aria-labelledby={`day-${day.dateKey}`}>
+          <header class="d2-day-head">
+            <h4 id={`day-${day.dateKey}`} class="d2-day-title">
+              <span class="d2-day-weekday">{day.weekday}</span>
+              <time datetime={day.dateKey}>{day.label}</time>
+            </h4>
+          </header>
+          {day.sessions.length === 0 ? (
+            <div class="d2-day-empty">
+              <p>{week.empty}</p>
+              <a href={postUrl} class="d2-day-post">
+                {week.post}
+                <span class="arrow">→</span>
+              </a>
+            </div>
+          ) : (
+            <ul class="d2-day-sessions">
+              {day.sessions.map((session) => {
+                const times = formatSessionTimes(session.startsAt);
+                const spotsFree = Math.max(0, session.maxPlayers - session.spotsTaken);
+                return (
+                  <li>
+                    <a class="d2-session-card" href={session.url}>
+                      <D2Icon src={session.iconSrc} size={36} />
+                      <div class="d2-session-body">
+                      <time class="d2-session-time" datetime={times.datetime}>
+                        {times.local}
+                        <span class="d2-session-gmt">({times.gmt})</span>
+                      </time>
+                      <p class="d2-session-title">{session.title}</p>
+                      <p class="d2-session-meta">
+                        {session.hostName} · {session.activityLabel} · {spotsFree} spots
+                      </p>
+                      </div>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
+      ))
+    }
+  </div>
+</section>

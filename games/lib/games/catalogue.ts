@@ -1,4 +1,5 @@
 import type { AccentColour } from "@/types/domain";
+import { d2HeroForActivity } from "@/lib/games/d2-assets";
 
 export type ActivityTemplate = {
   slug: string;
@@ -43,44 +44,44 @@ export const GAMES: GameDefinition[] = [
   {
     slug: "destiny2",
     name: "Destiny 2",
-    iconSrc: `${ICON_BASE}/destiny-svgrepo-com.svg`,
+    iconSrc: `${ICON_BASE}/destiny2.svg`,
     accent: "pink",
     activities: [
       {
         slug: "d2-raid",
         name: "Raid",
         defaultMaxPlayers: 6,
-        heroSrc: `${HERO_BASE}/destiny-raid.png`,
+        heroSrc: d2HeroForActivity("d2-raid")!,
       },
       {
         slug: "d2-dungeon",
         name: "Dungeon",
         defaultMaxPlayers: 3,
-        heroSrc: `${HERO_BASE}/destiny-dungeon.png`,
+        heroSrc: d2HeroForActivity("d2-dungeon")!,
       },
       {
         slug: "d2-exotic",
         name: "Exotic Quest",
         defaultMaxPlayers: 3,
-        heroSrc: `${HERO_BASE}/destiny-exotic.png`,
+        heroSrc: d2HeroForActivity("d2-exotic")!,
       },
       {
         slug: "d2-nightfall",
         name: "Grandmaster Nightfall",
         defaultMaxPlayers: 3,
-        heroSrc: `${HERO_BASE}/destiny-grandmaster.png`,
+        heroSrc: d2HeroForActivity("d2-nightfall")!,
       },
       {
         slug: "d2-strike",
         name: "Strike / playlist",
         defaultMaxPlayers: 3,
-        heroSrc: `${HERO_BASE}/destiny-strike.png`,
+        heroSrc: d2HeroForActivity("d2-strike")!,
       },
       {
         slug: "d2-trials",
         name: "Trials of Osiris",
         defaultMaxPlayers: 3,
-        heroSrc: `${HERO_BASE}/destiny-trials.png`,
+        heroSrc: d2HeroForActivity("d2-trials")!,
       },
     ],
   },

@@ -25,6 +25,10 @@
   --space-lg: 2rem;
   --space-xl: 2.75rem;
   --space-2xl: 4rem;
+
+  --text-base: 1.125rem;
+  --text-sm: 1rem;
+  --text-xs: 0.875rem;
 }
 
 @theme inline {
@@ -141,6 +145,7 @@
 }
 
 html {
+  font-size: 18px;
   scroll-behavior: smooth;
 }
 
@@ -153,7 +158,7 @@ html {
 body {
   background: var(--bg);
   color: var(--fg);
-  font-size: 15px;
+  font-size: 1.125rem;
   line-height: 1.65;
   min-height: 100vh;
   overflow-x: clip;
@@ -410,7 +415,6 @@ body::before {
 
 .session-card:has(.session-card-link:hover) {
   border-color: var(--acid);
-  box-shadow: 0 0 0 1px var(--acid-glow);
 }
 
 .session-card:has(.session-card-link:active) {
@@ -545,6 +549,14 @@ body::before {
   height: auto;
   object-fit: cover;
   object-position: center top;
+}
+
+.card-hero img[src$=".svg"] {
+  object-fit: contain;
+  object-position: center;
+  padding: var(--space-lg);
+  max-height: 12rem;
+  box-sizing: border-box;
 }
 
 .card-hero:not(.card-hero--detail) img {
@@ -697,7 +709,7 @@ body::before {
   color: var(--fg);
   padding: 14px 16px;
   font-family: inherit;
-  font-size: 15px;
+  font-size: var(--text-base);
 }
 
 .form-field input:focus-visible,
@@ -836,24 +848,17 @@ body::before {
   display: inline-flex;
   align-items: center;
   max-width: 100%;
-  padding: 0.2rem 0.7rem;
-  border-radius: 9999px;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-sm);
   font-size: 0.625rem;
   font-weight: 600;
   line-height: 1.25;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   white-space: nowrap;
-  border: 1px solid color-mix(in srgb, var(--rank-accent, var(--acid)) 40%, transparent);
+  border: 1px solid color-mix(in srgb, var(--rank-accent, var(--acid)) 45%, var(--line));
   color: var(--rank-accent, var(--acid));
-  background: linear-gradient(
-    160deg,
-    color-mix(in srgb, var(--rank-accent, var(--acid)) 16%, var(--bg-2)),
-    color-mix(in srgb, var(--rank-accent, var(--acid)) 6%, var(--bg-3))
-  );
-  box-shadow:
-    0 1px 0 color-mix(in srgb, var(--rank-accent, var(--acid)) 20%, transparent) inset,
-    0 2px 8px color-mix(in srgb, var(--rank-accent, var(--acid)) 8%, transparent);
+  background: color-mix(in srgb, var(--rank-accent, var(--acid)) 10%, var(--bg-2));
 }
 
 .rank-badge--host {
@@ -869,19 +874,18 @@ body::before {
   display: inline-flex;
   align-items: center;
   max-width: 100%;
-  padding: 0.28rem 0.75rem;
-  border-radius: 9999px;
+  padding: 0.28rem 0.6rem;
+  border-radius: var(--radius-sm);
   font-size: 0.75rem;
   font-weight: 500;
   line-height: 1.35;
-  border: 1px solid color-mix(in srgb, var(--tag-accent, var(--pink)) 32%, transparent);
+  border: 1px solid color-mix(in srgb, var(--tag-accent, var(--pink)) 40%, var(--line));
   color: var(--tag-accent, var(--pink));
-  background: color-mix(in srgb, var(--tag-accent, var(--pink)) 10%, var(--bg-3));
+  background: color-mix(in srgb, var(--tag-accent, var(--pink)) 8%, var(--bg-3));
 }
 
 .tag-pill--degenerate {
   --tag-accent: var(--pink);
-  font-style: italic;
 }
 
 .member-rank-card {
