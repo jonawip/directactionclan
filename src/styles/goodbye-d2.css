@@ -3,6 +3,15 @@
 :root {
   --header-h: calc(74px + env(safe-area-inset-top, 0px));
   --d2-gutter: 32px;
+  --d2-engram-gold: linear-gradient(
+    155deg,
+    #fff8d6 0%,
+    #f0d060 18%,
+    #d4a82a 42%,
+    #9a7618 58%,
+    #f5e08a 78%,
+    #c9a227 100%
+  );
 }
 
 .d2-takeover {
@@ -31,7 +40,16 @@
   background: var(--bg-2);
 }
 
-.hero-d2-media picture,
+.hero-d2-frame {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-d2-frame picture,
 .hero-d2-img {
   display: block;
   width: 100%;
@@ -40,7 +58,30 @@
 
 .hero-d2-img {
   object-fit: cover;
-  object-position: center center;
+  object-position: center 36%;
+}
+
+.hero-d2-emblem {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 2;
+  width: clamp(108px, 30vw, 176px);
+  height: clamp(108px, 30vw, 176px);
+  transform: translate(-50%, -54%);
+  pointer-events: none;
+  background: var(--d2-engram-gold);
+  opacity: 0.94;
+  filter: drop-shadow(0 0 28px rgba(212, 168, 42, 0.5))
+    drop-shadow(0 4px 12px rgba(0, 0, 0, 0.45));
+  mask-image: var(--d2-icon-url);
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  -webkit-mask-image: var(--d2-icon-url);
+  -webkit-mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center;
 }
 
 .hero-d2-stamp {
@@ -454,8 +495,22 @@
     min-height: 320px;
   }
 
+  .hero-d2-frame picture,
+  .hero-d2-frame .hero-d2-img {
+    width: 106%;
+    height: 106%;
+    max-width: none;
+  }
+
   .hero-d2-img {
-    object-position: center 22%;
+    object-fit: cover;
+    object-position: center 34%;
+  }
+
+  .hero-d2-emblem {
+    width: clamp(96px, 34vw, 152px);
+    height: clamp(96px, 34vw, 152px);
+    transform: translate(-50%, -52%);
   }
 
   .hero-d2-stamp {
