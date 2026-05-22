@@ -1,10 +1,15 @@
 /**
- * Goodbye D2 homepage takeover (09.06.2026 – 15.06.2026 inclusive, UTC).
- * Reverts 16.06.2026. Override: PUBLIC_GOODBYE_D2=on|off
+ * Goodbye D2 homepage takeover.
+ * Live on site from PREVIEW_START through 15.06.2026 (UTC); reverts 16.06.2026.
+ * Calendar/API week window stays 09.06 – 15.06. Override: PUBLIC_GOODBYE_D2=on|off
  */
 
 const LONDON = 'Europe/London';
 
+/** When the homepage takeover first appears (marketing preview). */
+export const GOODBYE_D2_PREVIEW_START = new Date('2026-05-22T00:00:00.000Z');
+
+/** First day of the farewell week (sessions, calendar). */
 export const GOODBYE_D2_TAKEOVER_START = new Date('2026-06-09T00:00:00.000Z');
 export const GOODBYE_D2_TAKEOVER_END_EXCLUSIVE = new Date('2026-06-16T00:00:00.000Z');
 export const GOODBYE_D2_MONUMENT_DATE = new Date('2026-06-09T00:00:00.000Z');
@@ -31,7 +36,8 @@ export function isGoodbyeD2Active(at: Date = new Date()): boolean {
   if (override === 'off') return false;
   const t = at.getTime();
   return (
-    t >= GOODBYE_D2_TAKEOVER_START.getTime() && t < GOODBYE_D2_TAKEOVER_END_EXCLUSIVE.getTime()
+    t >= GOODBYE_D2_PREVIEW_START.getTime() &&
+    t < GOODBYE_D2_TAKEOVER_END_EXCLUSIVE.getTime()
   );
 }
 
