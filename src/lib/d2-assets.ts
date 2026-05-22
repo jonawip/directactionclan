@@ -40,7 +40,5 @@ export function getD2ActivityIconSrc(activitySlug: string): string {
 }
 
 export function isD2ColorIcon(src: string): boolean {
-  return (
-    src.includes('damage-') || src.includes('ammo-') || src.includes('engram')
-  );
+  return src.includes('damage-') || src.includes('ammo-');
 }
