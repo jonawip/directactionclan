@@ -1,5 +1,6 @@
 import { GAMES_SITE_URL } from '../constants.ts';
 import staticWeek from '../data/goodbye-d2-week.json';
+import { D2_ACTIVITY_LABELS } from '../data/d2-activities.ts';
 import { getD2ActivityIconSrc } from './d2-assets.ts';
 import {
   GOODBYE_D2_TAKEOVER_END_EXCLUSIVE,
@@ -18,15 +19,6 @@ export type D2WeekSession = {
   hostAvatarUrl: string | null;
   spotsTaken: number;
   url: string;
-};
-
-const ACTIVITY_LABELS: Record<string, string> = {
-  'd2-raid': 'Raid',
-  'd2-dungeon': 'Dungeon',
-  'd2-nightfall': 'Grandmaster Nightfall',
-  'd2-strike': 'Strike',
-  'd2-trials': 'Trials',
-  'd2-exotic': 'Exotic Quest'
 };
 
 type ApiGame = {
@@ -50,7 +42,7 @@ function mapApiGame(row: ApiGame): D2WeekSession {
     startsAt: row.starts_at,
     maxPlayers: row.max_players,
     activitySlug: row.activity_slug,
-    activityLabel: ACTIVITY_LABELS[row.activity_slug] ?? row.activity_slug,
+    activityLabel: D2_ACTIVITY_LABELS[row.activity_slug] ?? row.activity_slug,
     iconSrc: getD2ActivityIconSrc(row.activity_slug),
     hostName: row.creator?.display_name ?? 'Unknown',
     hostAvatarUrl: row.creator?.avatar_url ?? null,
@@ -66,7 +58,7 @@ function mapStatic(row: (typeof staticWeek.sessions)[number]): D2WeekSession {
     startsAt: row.startsAt,
     maxPlayers: row.maxPlayers,
     activitySlug: row.activitySlug,
-    activityLabel: ACTIVITY_LABELS[row.activitySlug] ?? row.activitySlug,
+    activityLabel: D2_ACTIVITY_LABELS[row.activitySlug] ?? row.activitySlug,
     iconSrc: getD2ActivityIconSrc(row.activitySlug),
     hostName: row.hostName,
     hostAvatarUrl: row.hostAvatarUrl,

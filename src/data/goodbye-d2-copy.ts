@@ -22,7 +22,7 @@ export const goodbyeD2Copy = {
     rows: [
       { label: 'Location', value: 'The Last City' },
       { label: 'Schedule', value: '9-15 June, UK time' },
-      { label: 'Squad', value: 'Fireteam (six for raids, three for strikes)' }
+      { label: 'Squad', value: 'Six for raids · three for dungeons & Pantheon' }
     ] as const,
     body: [
       'Destiny 2 has been in our rotation for years. This week we run what we still love while we can.',
@@ -37,24 +37,42 @@ export const goodbyeD2Copy = {
   },
   week: {
     code: '// THE WEEK',
-    intro: 'Seven days. Two tracks. One last fireteam.',
+    intro: 'Seven days. Raids, dungeons, Pantheon 2.0, and Monument of Triumph — one last fireteam.',
     boardLine: 'Sessions live on games.directaction.monster. Post one, claim a slot, or just turn up.',
     rituals: {
-      title: 'Rituals',
-      tag: "For the parts we'll miss most.",
+      title: 'Raids',
+      tag: 'Six-player. Put the raid name in your session title.',
       items: [
-        { text: 'Final raid runs (Vault of Glass, King\'s Fall, Last Wish)', icon: 'raid' as const },
-        { text: 'Last patrol on the EDZ', icon: 'ghost' as const },
-        { text: 'Walk the Tower one more time', icon: 'ghost' as const }
+        {
+          text: "The Desert Perpetual — Edge of Fate's raid (2025)",
+          icon: 'raid' as const
+        },
+        {
+          text: "Salvation's Edge, King's Fall, Root of Nightmares, Crota's End",
+          icon: 'raid' as const
+        },
+        {
+          text: "Vault of Glass, Last Wish, Vow of the Disciple, Deep Stone Crypt, Garden of Salvation",
+          icon: 'raid' as const
+        }
       ] as const
     },
     sendoff: {
-      title: 'Send-off',
-      tag: 'For the parts that made us laugh.',
+      title: 'Dungeons, Pantheon & Monument',
+      tag: 'Three-player unless noted. Monument of Triumph lands 9 June.',
       items: [
-        { text: 'Silly loadout night', icon: 'ammoSpecial' as const },
-        { text: 'Meme subclass strikes', icon: 'damageVoid' as const },
-        { text: 'One more dungeon before lights out', icon: 'engram' as const }
+        {
+          text: 'Dungeons — Sundered Doctrine, Equilibrium, Vesper\'s Host, Warlord\'s Ruin',
+          icon: 'engram' as const
+        },
+        {
+          text: 'Pantheon 2.0 — boss slates from 9 June; full gauntlet from 13 June',
+          icon: 'raid' as const
+        },
+        {
+          text: 'Monument week — Sparrow Racing League, Solstice, Legendary Marks, revamped Director',
+          icon: 'damageSolar' as const
+        }
       ] as const
     },
     empty: 'No sessions yet',

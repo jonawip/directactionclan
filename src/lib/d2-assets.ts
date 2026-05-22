@@ -26,6 +26,8 @@ export const d2ClassIcon: Record<'Titan' | 'Hunter' | 'Warlock', string> = {
 export const d2ActivityIcon: Record<string, D2IconKey> = {
   'd2-raid': 'raid',
   'd2-dungeon': 'engram',
+  'd2-pantheon': 'raid',
+  'd2-monument': 'damageSolar',
   'd2-nightfall': 'ammoHeavy',
   'd2-strike': 'ghost',
   'd2-exotic': 'engram',

@@ -52,36 +52,32 @@ export const GAMES: GameDefinition[] = [
         name: "Raid",
         defaultMaxPlayers: 6,
         heroSrc: d2HeroForActivity("d2-raid")!,
+        description:
+          "Six-player. Name the raid in the title — e.g. The Desert Perpetual, Salvation's Edge, King's Fall, Vault of Glass, Last Wish.",
       },
       {
         slug: "d2-dungeon",
         name: "Dungeon",
         defaultMaxPlayers: 3,
         heroSrc: d2HeroForActivity("d2-dungeon")!,
+        description:
+          "Three-player. Sundered Doctrine, Equilibrium, Vesper's Host, Warlord's Ruin, and the rest of the catalogue.",
       },
       {
-        slug: "d2-exotic",
-        name: "Exotic Quest",
+        slug: "d2-pantheon",
+        name: "Pantheon",
         defaultMaxPlayers: 3,
-        heroSrc: d2HeroForActivity("d2-exotic")!,
+        heroSrc: d2HeroForActivity("d2-pantheon")!,
+        description:
+          "Pantheon 2.0 boss rush. First slates from 9 June; full gauntlet from 13 June; featured rotations from 16 June.",
       },
       {
-        slug: "d2-nightfall",
-        name: "Grandmaster Nightfall",
+        slug: "d2-monument",
+        name: "Monument of Triumph",
         defaultMaxPlayers: 3,
-        heroSrc: d2HeroForActivity("d2-nightfall")!,
-      },
-      {
-        slug: "d2-strike",
-        name: "Strike / playlist",
-        defaultMaxPlayers: 3,
-        heroSrc: d2HeroForActivity("d2-strike")!,
-      },
-      {
-        slug: "d2-trials",
-        name: "Trials of Osiris",
-        defaultMaxPlayers: 3,
-        heroSrc: d2HeroForActivity("d2-trials")!,
+        heroSrc: d2HeroForActivity("d2-monument")!,
+        description:
+          "Monument of Triumph week — Sparrow Racing League, Solstice, Legendary Marks, Director tour, or other launch activities.",
       },
     ],
   },
