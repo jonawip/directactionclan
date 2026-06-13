@@ -68,7 +68,7 @@
   color: var(--acid);
   padding: 6px 10px;
   border: 1px solid var(--acid);
-  background: rgba(10, 9, 7, 0.72);
+  background: rgba(13, 11, 9, 0.72);
 }
 
 .hero-d2-unit {
@@ -85,7 +85,7 @@
   text-transform: uppercase;
   letter-spacing: 0.16em;
   color: var(--fg-dim);
-  background: rgba(10, 9, 7, 0.82);
+  background: rgba(13, 11, 9, 0.82);
   border-top: 1px solid var(--line);
 }
 
@@ -417,7 +417,7 @@
 
 .d2-session-card:hover,
 .d2-session-card:focus-visible {
-  background: rgba(212, 255, 26, 0.05);
+  background: rgba(212, 98, 26, 0.05);
   outline: 2px solid var(--acid);
   outline-offset: -2px;
 }
